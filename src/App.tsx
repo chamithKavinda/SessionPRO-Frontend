@@ -4,6 +4,7 @@ import WelcomePage from "./pages/WelcomePage";
 import AuthPage from "./pages/AuthPage"; 
 import Dashboard from "./pages/Dashboard";
 import SessionsPage from "./pages/SessionsPage";
+import SpeakersPage from "./pages/SpeakersPage";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path="/auth" element={<AuthPage />} /> 
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/sessions" element={<SessionsPage />} />
+        <Route path="/speakers" element={<SpeakersPage />} />
       </Routes>
     </Router>
   );
