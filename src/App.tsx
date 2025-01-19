@@ -1,8 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import WelcomePage from "./pages/WelcomePage";
-import SignInPage from "./pages/SignInPage";
-import SignUpPage from "./pages/SignUpPage";
+import AuthPage from "./pages/AuthPage"; // Import the combined AuthPage component
 import Dashboard from "./pages/Dashboard";
 
 const App = () => {
@@ -10,8 +9,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<WelcomePage />} />
-        <Route path="/signin" element={<SignInPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/auth" element={<AuthPage />} /> {/* Combined route */}
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>

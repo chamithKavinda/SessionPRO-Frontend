@@ -15,7 +15,7 @@ const WelcomePage = () => {
         <div className="relative">
           <button
             className="relative inline-block p-px font-semibold leading-6 text-white shadow-2xl cursor-pointer rounded-xl shadow-zinc-900 transition-all duration-300 ease-in-out bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500"
-            onClick={() => navigate("/signin")}
+            onClick={() => navigate("/auth")}
           >
             <span
               className="absolute inset-0 rounded-xl bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 p-[2px] opacity-0"
