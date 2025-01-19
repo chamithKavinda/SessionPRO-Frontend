@@ -1,4 +1,4 @@
-# Session Manager Pro  
+# SessionPRO  
 _A System to Plan, Organize, and Track Conference Sessions_
 
 ## Table of Contents
@@ -87,8 +87,5 @@ The **Session Manager Pro** system is designed to streamline the management of c
    - Register for sessions.  
    - Provide feedback on sessions.  
 
----
 
-## License
-This project is licensed under the [https://github.com/chamithKavinda/SessionPRO?tab=MIT-1-ov-file](LICENSE).
 
