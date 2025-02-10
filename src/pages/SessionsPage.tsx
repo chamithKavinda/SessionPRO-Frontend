@@ -17,6 +17,8 @@ const SessionsPage = () => {
     speakerName: ''
   });
 
+  const [showOptions, setShowOptions] = useState<{ [key: string]: boolean }>({}); // Track which session is selected for options
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
@@ -41,6 +43,32 @@ const SessionsPage = () => {
     );
     setSessions([...sessions, newSession]);
     setShowPopup(false);
+  };
+
+  const handleOptionsClick = (sessionId: string) => {
+    setShowOptions(prev => ({ ...prev, [sessionId]: !prev[sessionId] }));
+  };
+
+  const handleDeleteSession = (sessionId: string) => {
+    setSessions(sessions.filter(session => session.id !== sessionId));
+    setShowOptions(prev => ({ ...prev, [sessionId]: false }));
+  };
+
+  const handleUpdateSession = (sessionId: string) => {
+    const session = sessions.find(s => s.id === sessionId);
+    if (session) {
+      setSessionData({
+        name: session.name,
+        description: session.description,
+        date: session.date,
+        time: session.time,
+        location: session.location,
+        duration: session.duration,
+        speakerName: session.speakerName
+      });
+      setShowPopup(true);
+    }
+    setShowOptions(prev => ({ ...prev, [sessionId]: false }));
   };
 
   return (
@@ -217,8 +245,7 @@ const SessionsPage = () => {
             <div className="relative">
               <button
                 className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-                // Add a click handler for the icon if needed
-                // onClick={() => handleIconClick(session.id)}
+                onClick={() => handleOptionsClick(session.id)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -235,6 +262,23 @@ const SessionsPage = () => {
                   />
                 </svg>
               </button>
+
+              {showOptions[session.id] && (
+                <div className="absolute top-0 right-0 mt-8 w-32 bg-gray-100 shadow-lg rounded-lg p-2">
+                  <button
+                    onClick={() => handleUpdateSession(session.id)}
+                    className="block w-full text-left text-gray-700 hover:bg-gray-200 p-2"
+                  >
+                    Update
+                  </button>
+                  <button
+                    onClick={() => handleDeleteSession(session.id)}
+                    className="block w-full text-left text-gray-700 hover:bg-red-300 p-2"
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className="rounded-[10px] bg-white p-4 h-full !pt-20 sm:p-6">
@@ -255,9 +299,6 @@ const SessionsPage = () => {
           </article>
         ))}
       </div>
-
-
-
     </div>
   );
 };
