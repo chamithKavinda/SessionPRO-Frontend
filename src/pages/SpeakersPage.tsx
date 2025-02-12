@@ -6,6 +6,8 @@ const SpeakersPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [speakers, setSpeakers] = useState<Speaker[]>([]);
   const [speakerCount, setSpeakerCount] = useState(1);
+  const [editingSpeakerId, setEditingSpeakerId] = useState<string | null>(null);
+  const [selectedSpeakerId, setSelectedSpeakerId] = useState<string | null>(null);
 
   const [speakerData, setSpeakerData] = useState({
     name: '',
@@ -23,17 +25,65 @@ const SpeakersPage = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // const speakerId = speakerCount.toString().padStart(2, '0');
-    setSpeakerCount(speakerCount + 1);
+    let speakerId = speakerData.name.toLowerCase().replace(/ /g, '-');
+  
+    if (!editingSpeakerId) {
+      speakerId = speakerCount.toString().padStart(2, '0');
+      setSpeakerCount(speakerCount + 1);
+    }
+  
+    if (editingSpeakerId) {
+      setSpeakers((prevSpeakers) =>
+        prevSpeakers.map((speaker) =>
+          speaker.id === editingSpeakerId
+            ? { ...speaker, ...speakerData }
+            : speaker
+        )
+      );
+      setEditingSpeakerId(null);
+    } else {
+      const newSpeaker = new Speaker(
+        speakerId,
+        speakerData.name,
+        speakerData.bio,
+        speakerData.expertise,
+        speakerData.email
+      );
+      setSpeakers((prevSpeakers) => [...prevSpeakers, newSpeaker]);
+    }
 
-    const newSpeaker = new Speaker(
-      speakerData.name,
-      speakerData.bio,
-      speakerData.expertise,
-      speakerData.email
-    );
-    setSpeakers([...speakers, newSpeaker]);
-    setShowPopup(false);
+    // Reset speakerData
+    setSpeakerData({
+      name: '',
+      bio: '',
+      expertise: '',
+      email: ''
+    });
+
+    setShowPopup(false); // Close the popup after submission
+  };
+
+  const handleOptionsClick = (speakerId: string) => {
+    setSelectedSpeakerId(prev => (prev === speakerId ? null : speakerId)); // Toggle visibility
+  };
+
+  const handleDeleteSpeaker = (speakerId: string) => {
+    setSpeakers(speakers.filter(speaker => speaker.id !== speakerId));
+    setSelectedSpeakerId(null);
+  };
+
+  const handleUpdateSpeaker = (speakerId: string) => {
+    const speaker = speakers.find(s => s.id === speakerId);
+    if (speaker) {
+      setSpeakerData({
+        name: speaker.name,
+        bio: speaker.bio,
+        expertise: speaker.expertise,
+        email: speaker.email
+      });
+      setEditingSpeakerId(speakerId); // Track the speaker being edited
+      setShowPopup(true);
+    }
   };
 
   return (
@@ -72,6 +122,7 @@ const SpeakersPage = () => {
             <form onSubmit={handleSubmit}>
               <h2 className="text-2xl mb-6 text-center font-bold">Add New Speaker</h2>
 
+              {/* Grid Container */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Speaker Name */}
                 <div>
@@ -106,7 +157,7 @@ const SpeakersPage = () => {
                 </div>
 
                 {/* Email */}
-                <div className="md:col-span-2">
+                <div>
                   <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
                     Email
                   </label>
@@ -152,44 +203,36 @@ const SpeakersPage = () => {
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-y-5 gap-x-2 px-4 mt-8">
-        {speakers.map((speaker, index) => (
-          <div
-            key={index}
-            className="bg-white rounded-lg shadow-lg p-4 relative mx-auto hover:animate-background transition-all"
-          >
-            {/* Three dots icon */}
-            <div className="relative">
-              <button
-                className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-                // Add click handler for the icon if needed
-                // onClick={() => handleIconClick(speaker.id)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 6.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12 12.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12 18.75a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                  />
-                </svg>
-              </button>
-            </div>
-
-            {/* Speaker Details */}
-            <h3 className="text-lg font-medium text-gray-900">{speaker.name}</h3>
-            <p className="text-sm text-gray-700">{speaker.expertise}</p>
-            <p className="text-sm text-gray-700">Bio: {speaker.bio}</p>
-            <p className="text-sm text-gray-700">Email: {speaker.email}</p>
+        {speakers.map((speaker) => (
+          <article key={speaker.id} className="w-[250px] h-[250px] mx-auto hover:animate-background rounded-xl shadow-2xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]">
+          <div className="relative">
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+              onClick={() => handleOptionsClick(speaker.id)}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12 12.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12 18.75a.75.75 0 100-1.5.75.75 0 000 1.5z"/>
+              </svg>
+            </button>
+        
+            {selectedSpeakerId === speaker.id && (
+              <div className="absolute top-0 right-0 mt-8 w-32 bg-gray-100 shadow-lg rounded-lg p-2">
+                <button onClick={() => handleUpdateSpeaker(speaker.id)} className="block w-full text-left text-gray-700 hover:bg-gray-200 p-2">Update</button>
+                <button onClick={() => handleDeleteSpeaker(speaker.id)} className="block w-full text-left text-gray-700 hover:bg-red-300 p-2">Delete</button>
+              </div>
+            )}
           </div>
+        
+          <div className="rounded-[10px] bg-white p-4 h-full !pt-12 sm:p-6">
+            <h3 className="mt-0.5 text-lg font-medium text-gray-900">{speaker.name}</h3>
+            <p className="mt-1 text-sm text-gray-700">Expertise: {speaker.expertise}</p>
+            <p className="mt-1 text-sm text-gray-700">Email: {speaker.email}</p>
+            <p className="mt-1 text-sm text-gray-700">Speaker ID: {speaker.id}</p>
+            <p className="mt-3 text-sm">{speaker.bio}</p>
+          </div>
+        </article>        
         ))}
       </div>
-      
     </div>
   );
 };

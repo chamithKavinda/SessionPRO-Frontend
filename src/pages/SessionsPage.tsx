@@ -34,21 +34,20 @@ const SessionsPage = () => {
     let sessionId = sessionData.date;
   
     if (!editingSessionId) {
-      // Generate session ID for new session
       sessionId = sessionCount.toString().padStart(2, '0');
       setSessionCount(sessionCount + 1);
     }
   
     if (editingSessionId) {
-      // Update session
-      setSessions(sessions.map((session) =>
-        session.id === editingSessionId
-          ? { ...session, ...sessionData } // Update session data
-          : session
-      ));
-      setEditingSessionId(null); // Reset editing state
+      setSessions((prevSessions) =>
+        prevSessions.map((session) =>
+          session.id === editingSessionId
+            ? { ...session, ...sessionData }
+            : session
+        )
+      );
+      setEditingSessionId(null);
     } else {
-      // Add new session
       const newSession = new Session(
         sessionId,
         sessionData.name,
@@ -59,13 +58,24 @@ const SessionsPage = () => {
         sessionData.duration,
         sessionData.speakerName
       );
-      setSessions([...sessions, newSession]);
+      setSessions((prevSessions) => [...prevSessions, newSession]);
     }
   
-    setShowPopup(false); // Close the popup after submission
-  };  
+    // Reset sessionData
+    setSessionData({
+      name: '',
+      description: '',
+      date: '',
+      time: '',
+      location: '',
+      duration: '',
+      speakerName: ''
+    });
   
+    setShowPopup(false); // Close the popup after submission
+  };
 
+   
   const handleOptionsClick = (sessionId: string) => {
     setSelectedSessionId(prev => (prev === sessionId ? null : sessionId)); // Toggle visibility
   };
