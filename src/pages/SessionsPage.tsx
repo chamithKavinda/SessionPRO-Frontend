@@ -6,6 +6,9 @@ const SessionsPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [sessions, setSessions] = useState<Session[]>([]);
   const [sessionCount, setSessionCount] = useState(1); 
+  const [editingSessionId, setEditingSessionId] = useState<string | null>(null);
+  const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
+
 
   const [sessionData, setSessionData] = useState({
     name: '',
@@ -17,7 +20,7 @@ const SessionsPage = () => {
     speakerName: ''
   });
 
-  const [showOptions, setShowOptions] = useState<{ [key: string]: boolean }>({}); // Track which session is selected for options
+  const [showOptions, setShowOptions] = useState<{ [key: string]: boolean }>({});
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -28,26 +31,45 @@ const SessionsPage = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const sessionId = sessionCount.toString().padStart(2, '0'); 
-    setSessionCount(sessionCount + 1); 
-
-    const newSession = new Session(
-      sessionId,
-      sessionData.name,
-      sessionData.description,
-      sessionData.date,
-      sessionData.time,
-      sessionData.location,
-      sessionData.duration,
-      sessionData.speakerName
-    );
-    setSessions([...sessions, newSession]);
-    setShowPopup(false);
-  };
+    let sessionId = sessionData.date;
+  
+    if (!editingSessionId) {
+      // Generate session ID for new session
+      sessionId = sessionCount.toString().padStart(2, '0');
+      setSessionCount(sessionCount + 1);
+    }
+  
+    if (editingSessionId) {
+      // Update session
+      setSessions(sessions.map((session) =>
+        session.id === editingSessionId
+          ? { ...session, ...sessionData } // Update session data
+          : session
+      ));
+      setEditingSessionId(null); // Reset editing state
+    } else {
+      // Add new session
+      const newSession = new Session(
+        sessionId,
+        sessionData.name,
+        sessionData.description,
+        sessionData.date,
+        sessionData.time,
+        sessionData.location,
+        sessionData.duration,
+        sessionData.speakerName
+      );
+      setSessions([...sessions, newSession]);
+    }
+  
+    setShowPopup(false); // Close the popup after submission
+  };  
+  
 
   const handleOptionsClick = (sessionId: string) => {
-    setShowOptions(prev => ({ ...prev, [sessionId]: !prev[sessionId] }));
+    setSelectedSessionId(prev => (prev === sessionId ? null : sessionId)); // Toggle visibility
   };
+  
 
   const handleDeleteSession = (sessionId: string) => {
     setSessions(sessions.filter(session => session.id !== sessionId));
@@ -66,11 +88,11 @@ const SessionsPage = () => {
         duration: session.duration,
         speakerName: session.speakerName
       });
+      setEditingSessionId(sessionId); // Track the session being edited
       setShowPopup(true);
     }
-    setShowOptions(prev => ({ ...prev, [sessionId]: false }));
   };
-
+  
   return (
     <div>
       <NavBar />
@@ -263,7 +285,7 @@ const SessionsPage = () => {
                 </svg>
               </button>
 
-              {showOptions[session.id] && (
+              {selectedSessionId === session.id && (
                 <div className="absolute top-0 right-0 mt-8 w-32 bg-gray-100 shadow-lg rounded-lg p-2">
                   <button
                     onClick={() => handleUpdateSession(session.id)}
@@ -279,6 +301,7 @@ const SessionsPage = () => {
                   </button>
                 </div>
               )}
+
             </div>
 
             <div className="rounded-[10px] bg-white p-4 h-full !pt-20 sm:p-6">
