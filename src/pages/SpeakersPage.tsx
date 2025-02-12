@@ -157,7 +157,7 @@ const SpeakersPage = () => {
                 </div>
 
                 {/* Email */}
-                <div>
+                <div className="md:col-span-2">
                   <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
                     Email
                   </label>
