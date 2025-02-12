@@ -5,6 +5,7 @@ import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/Dashboard";
 import SessionsPage from "./pages/SessionsPage";
 import SpeakersPage from "./pages/SpeakersPage";
+import UserPage from "./pages/UserPage";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/sessions" element={<SessionsPage />} />
         <Route path="/speakers" element={<SpeakersPage />} />
+        <Route path="/users" element={<UserPage/>} />
       </Routes>
     </Router>
   );

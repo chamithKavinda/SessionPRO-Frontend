@@ -225,10 +225,10 @@ const SpeakersPage = () => {
         
           <div className="rounded-[10px] bg-white p-4 h-full !pt-12 sm:p-6">
             <h3 className="mt-0.5 text-lg font-medium text-gray-900">{speaker.name}</h3>
-            <p className="mt-1 text-sm text-gray-700">Expertise: {speaker.expertise}</p>
+            <p className="mt-2 text-sm">{speaker.bio}</p>
+            <p className="mt-3 text-sm text-gray-700">Expertise: {speaker.expertise}</p>
             <p className="mt-1 text-sm text-gray-700">Email: {speaker.email}</p>
             <p className="mt-1 text-sm text-gray-700">Speaker ID: {speaker.id}</p>
-            <p className="mt-3 text-sm">{speaker.bio}</p>
           </div>
         </article>        
         ))}
