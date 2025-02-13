@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import NavBar from '../components/NavBar';
 import Speaker from '../models/speaker';
+import { toast } from 'react-toastify';
 
 const SpeakersPage = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -26,12 +27,12 @@ const SpeakersPage = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let speakerId = speakerData.name.toLowerCase().replace(/ /g, '-');
-  
+
     if (!editingSpeakerId) {
       speakerId = speakerCount.toString().padStart(2, '0');
       setSpeakerCount(speakerCount + 1);
     }
-  
+
     if (editingSpeakerId) {
       setSpeakers((prevSpeakers) =>
         prevSpeakers.map((speaker) =>
@@ -41,6 +42,7 @@ const SpeakersPage = () => {
         )
       );
       setEditingSpeakerId(null);
+      toast.success("Speaker updated successfully!"); // ✅ Success alert for update
     } else {
       const newSpeaker = new Speaker(
         speakerId,
@@ -50,6 +52,7 @@ const SpeakersPage = () => {
         speakerData.email
       );
       setSpeakers((prevSpeakers) => [...prevSpeakers, newSpeaker]);
+      toast.success("Speaker added successfully!"); // ✅ Success alert for new speaker
     }
 
     // Reset speakerData
@@ -70,6 +73,8 @@ const SpeakersPage = () => {
   const handleDeleteSpeaker = (speakerId: string) => {
     setSpeakers(speakers.filter(speaker => speaker.id !== speakerId));
     setSelectedSpeakerId(null);
+  
+    toast.success("Speaker deleted successfully!"); // ✅ Success alert for speaker deletion
   };
 
   const handleUpdateSpeaker = (speakerId: string) => {
@@ -83,6 +88,8 @@ const SpeakersPage = () => {
       });
       setEditingSpeakerId(speakerId); // Track the speaker being edited
       setShowPopup(true);
+  
+      toast.info(`Editing speaker: ${speaker.name}`); // Toast for editing speaker
     }
   };
 
