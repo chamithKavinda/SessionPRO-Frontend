@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import NavBar from '../components/NavBar';
 import User from '../models/user';
+import { toast } from 'react-toastify';
 
 const UsersPage = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -41,6 +42,7 @@ const UsersPage = () => {
         )
       );
       setEditingUserId(null);
+      toast.success("User updated successfully!"); // ✅ Success alert for update
     } else {
       const newUser = new User(
         userId,
@@ -50,16 +52,17 @@ const UsersPage = () => {
         userData.role
       );
       setUsers((prevUsers) => [...prevUsers, newUser]);
+      toast.success("User added successfully!"); // ✅ Success alert for new user
     }
-
+  
     // Reset userData
     setUserData({
       username: '',
       email: '',
       password: '',
-      role: '' 
+      role: ''
     });
-
+  
     setShowPopup(false); // Close the popup after submission
   };
 
@@ -70,6 +73,8 @@ const UsersPage = () => {
   const handleDeleteUser = (userId: string) => {
     setUsers(users.filter(user => user.id !== userId));
     setSelectedUserId(null);
+  
+    toast.success("User deleted successfully!"); // ✅ Success alert for user deletion
   };
 
   const handleUpdateUser = (userId: string) => {
@@ -83,6 +88,8 @@ const UsersPage = () => {
       });
       setEditingUserId(userId); // Track the user being edited
       setShowPopup(true);
+  
+      toast.info(`Editing user: ${user.username}`); // Toast for editing user
     }
   };
 

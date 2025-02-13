@@ -110,12 +110,6 @@ const SessionsPage = () => {
     }
   };
 
-  const handleSaveUpdate = () => {
-    // Assume update logic is implemented here
-    toast.success('Session updated successfully!');
-    setShowPopup(false);
-  };
-
 
   return (
     <div>
