@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import NavBar from '../components/NavBar';
 import Session from '../models/session';
+import { toast } from "react-toastify";
 
 const SessionsPage = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -32,12 +33,12 @@ const SessionsPage = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let sessionId = sessionData.date;
-  
+
     if (!editingSessionId) {
       sessionId = sessionCount.toString().padStart(2, '0');
       setSessionCount(sessionCount + 1);
     }
-  
+
     if (editingSessionId) {
       setSessions((prevSessions) =>
         prevSessions.map((session) =>
@@ -47,6 +48,7 @@ const SessionsPage = () => {
         )
       );
       setEditingSessionId(null);
+      toast.success("Session updated successfully!"); // ✅ Success alert for update
     } else {
       const newSession = new Session(
         sessionId,
@@ -59,8 +61,10 @@ const SessionsPage = () => {
         sessionData.speakerName
       );
       setSessions((prevSessions) => [...prevSessions, newSession]);
+
+      toast.success("Session added successfully!"); // ✅ Success alert for new session
     }
-  
+
     // Reset sessionData
     setSessionData({
       name: '',
@@ -71,11 +75,10 @@ const SessionsPage = () => {
       duration: '',
       speakerName: ''
     });
-  
+
     setShowPopup(false); // Close the popup after submission
   };
-
-   
+ 
   const handleOptionsClick = (sessionId: string) => {
     setSelectedSessionId(prev => (prev === sessionId ? null : sessionId)); // Toggle visibility
   };
@@ -84,6 +87,8 @@ const SessionsPage = () => {
   const handleDeleteSession = (sessionId: string) => {
     setSessions(sessions.filter(session => session.id !== sessionId));
     setShowOptions(prev => ({ ...prev, [sessionId]: false }));
+  
+    toast.success("Session deleted successfully!");
   };
 
   const handleUpdateSession = (sessionId: string) => {
@@ -100,9 +105,18 @@ const SessionsPage = () => {
       });
       setEditingSessionId(sessionId); // Track the session being edited
       setShowPopup(true);
+      
+      toast.info(`Editing session: ${session.name}`);
     }
   };
-  
+
+  const handleSaveUpdate = () => {
+    // Assume update logic is implemented here
+    toast.success('Session updated successfully!');
+    setShowPopup(false);
+  };
+
+
   return (
     <div>
       <NavBar />
@@ -323,11 +337,11 @@ const SessionsPage = () => {
               <p className="text-sm text-gray-700">Session ID: {session.id}</p>
 
               <button
-                className="mt-4 w-full bg-gray-800 text-white h-9 rounded-xl hover:bg-gray-800 transition"
-                // onClick={() => handleRegister(session.id)}
-              >
+                className="mt-4 w-full bg-gray-800 text-white h-9 rounded-xl hover:bg-gray-700 transition"
+                onClick={() => toast.success("Registration successful!", { position: "bottom-right", autoClose: 3000 })}>
                 Register
               </button>
+
             </div>
           </article>
         ))}

@@ -233,7 +233,7 @@ const UsersPage = () => {
               <h3 className="mt-0.5 text-lg font-medium text-gray-900">{user.username}</h3>
               <p className="mt-2 text-sm">Email: {user.email}</p>
               <p className="mt-1 text-sm text-gray-700">
-                Password (Encoded): {user.password ? btoa(user.password) : 'No password available'}
+                Password (Encoded)~: {user.password ? btoa(user.password) : 'No password available'}
               </p>
               <p className="mt-1 text-sm text-gray-700">Role: {user.role}</p>
               <p className="mt-1 text-sm text-gray-700">User ID: {user.id}</p>
