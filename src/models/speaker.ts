@@ -1,17 +1,15 @@
 class Speaker {
-  speakerID: string;
   name: string;
   bio: string;
   expertise: string;
-  email: string;
-  image: string; 
+  speakerEmail: string;
+  image: string;
 
-  constructor(speakerID: string, name: string, bio: string, expertise: string, email: string, image: string) {
-    this.speakerID = speakerID;
+  constructor(name: string, bio: string, expertise: string, speakerEmail: string, image: string) {
     this.name = name;
     this.bio = bio;
     this.expertise = expertise;
-    this.email = email;
+    this.speakerEmail = speakerEmail;
     this.image = image;
   }
 }
