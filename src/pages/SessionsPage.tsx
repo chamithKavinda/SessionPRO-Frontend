@@ -9,7 +9,7 @@ const SessionsPage = () => {
   const [sessionCount, setSessionCount] = useState(1); 
   const [editingSessionId, setEditingSessionId] = useState<string | null>(null);
   const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
-
+  const [showOptions, setShowOptions] = useState<{ [key: string]: boolean }>({});
 
   const [sessionData, setSessionData] = useState({
     name: '',
@@ -21,7 +21,7 @@ const SessionsPage = () => {
     speakerName: ''
   });
 
-  const [showOptions, setShowOptions] = useState<{ [key: string]: boolean }>({});
+  
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>

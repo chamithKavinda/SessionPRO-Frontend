@@ -14,7 +14,8 @@ const SpeakersPage = () => {
     name: '',
     bio: '',
     expertise: '',
-    email: ''
+    email: '',
+    image: ''
   });
 
   const handleInputChange = (
@@ -49,7 +50,8 @@ const SpeakersPage = () => {
         speakerData.name,
         speakerData.bio,
         speakerData.expertise,
-        speakerData.email
+        speakerData.email,
+        speakerData.image
       );
       setSpeakers((prevSpeakers) => [...prevSpeakers, newSpeaker]);
       toast.success("Speaker added successfully!"); // ✅ Success alert for new speaker
@@ -60,7 +62,8 @@ const SpeakersPage = () => {
       name: '',
       bio: '',
       expertise: '',
-      email: ''
+      email: '',
+      image: ''
     });
 
     setShowPopup(false); // Close the popup after submission
@@ -84,7 +87,8 @@ const SpeakersPage = () => {
         name: speaker.name,
         bio: speaker.bio,
         expertise: speaker.expertise,
-        email: speaker.email
+        email: speaker.email,
+        image: speaker.image
       });
       setEditingSpeakerId(speakerId); // Track the speaker being edited
       setShowPopup(true);
@@ -92,6 +96,23 @@ const SpeakersPage = () => {
       toast.info(`Editing speaker: ${speaker.name}`); // Toast for editing speaker
     }
   };
+
+  // Add this function to handle file input change
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setSpeakerData({ ...speakerData, image: reader.result as string });
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Add this function to remove the image
+  const removeImage = () => {
+    setSpeakerData({ ...speakerData, image: '' });
+  }
 
   return (
     <div>
@@ -193,6 +214,48 @@ const SpeakersPage = () => {
                     required
                   ></textarea>
                 </div>
+
+                {/* Image */}
+                <div className="md:col-span-2">
+                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
+                    Speaker Image
+                  </label>
+                  <input
+                    type="file"
+                    id="image"
+                    name="image"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    required
+                  />
+                </div>
+
+                {/* Image Preview and Remove */}
+                {speakerData.image && (
+                  <div className="md:col-span-2 relative flex flex-col items-center">
+                    <img src={speakerData.image} alt="Speaker" className="w-32 h-32 object-cover rounded-full mb-2" />
+                    <div
+                      className="absolute top-0 right-0 cursor-pointer mt-2 mr-2"
+                      onClick={removeImage}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6 text-red-600 hover:text-red-800"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Save Button */}
@@ -211,37 +274,47 @@ const SpeakersPage = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-y-5 gap-x-2 px-4 mt-8">
         {speakers.map((speaker) => (
-          <article key={speaker.id} className="w-[250px] h-[250px] mx-auto hover:animate-background rounded-xl shadow-2xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]">
-          <div className="relative">
-            <button
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-              onClick={() => handleOptionsClick(speaker.id)}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12 12.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12 18.75a.75.75 0 100-1.5.75.75 0 000 1.5z"/>
-              </svg>
-            </button>
-        
-            {selectedSpeakerId === speaker.id && (
-              <div className="absolute top-0 right-0 mt-8 w-32 bg-gray-100 shadow-lg rounded-lg p-2">
-                <button onClick={() => handleUpdateSpeaker(speaker.id)} className="block w-full text-left text-gray-700 hover:bg-gray-200 p-2">Update</button>
-                <button onClick={() => handleDeleteSpeaker(speaker.id)} className="block w-full text-left text-gray-700 hover:bg-red-300 p-2">Delete</button>
-              </div>
-            )}
-          </div>
-        
-          <div className="rounded-[10px] bg-white p-4 h-full !pt-12 sm:p-6">
-            <h3 className="mt-0.5 text-lg font-medium text-gray-900">{speaker.name}</h3>
-            <p className="mt-2 text-sm">{speaker.bio}</p>
-            <p className="mt-3 text-sm text-gray-700">Expertise: {speaker.expertise}</p>
-            <p className="mt-1 text-sm text-gray-700">Email: {speaker.email}</p>
-            <p className="mt-1 text-sm text-gray-700">Speaker ID: {speaker.id}</p>
-          </div>
-        </article>        
+          <article
+            key={speaker.id}
+            className="w-[250px] h-[375px] mx-auto hover:animate-background rounded-xl shadow-2xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]"
+          >
+            <div className="relative">
+              <button
+                className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+                onClick={() => handleOptionsClick(speaker.id)}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12 12.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12 18.75a.75.75 0 100-1.5.75.75 0 000 1.5z"/>
+                </svg>
+              </button>
+
+              {selectedSpeakerId === speaker.id && (
+                <div className="absolute top-0 right-0 mt-8 w-32 bg-gray-100 shadow-lg rounded-lg p-2">
+                  <button onClick={() => handleUpdateSpeaker(speaker.id)} className="block w-full text-left text-gray-700 hover:bg-gray-200 p-2">Update</button>
+                  <button onClick={() => handleDeleteSpeaker(speaker.id)} className="block w-full text-left text-gray-700 hover:bg-red-300 p-2">Delete</button>
+                </div>
+              )}
+            </div>
+
+            <div className="rounded-[10px] bg-white p-4 h-full !pt-12 sm:p-6">
+              <img
+                src={speaker.image}
+                alt={`${speaker.name}'s image`}
+                className="w-32 h-32 object-cover rounded-full mx-auto mb-4"
+              />
+              <h3 className="mt-0.5 text-lg font-medium text-gray-900">{speaker.name}</h3>
+              <p className="mt-2 text-sm">{speaker.bio}</p>
+              <p className="mt-3 text-sm text-gray-700">Expertise: {speaker.expertise}</p>
+              <p className="mt-1 text-sm text-gray-700">Email: {speaker.email}</p>
+              <p className="mt-1 text-sm text-gray-700">Speaker ID: {speaker.id}</p>
+            </div>
+          </article>
         ))}
       </div>
+
     </div>
   );
 };
+
 
 export default SpeakersPage;
