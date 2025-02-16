@@ -6,9 +6,8 @@ import { toast } from 'react-toastify';
 const UsersPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
-  const [userCount, setUserCount] = useState(1);
-  const [editingUserId, setEditingUserId] = useState<string | null>(null);
-  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [editingUserEmail, setEditingUserEmail] = useState<string | null>(null);
+  const [selectedUserEmail, setSelectedUserEmail] = useState<string | null>(null);
 
   const [userData, setUserData] = useState({
     username: '',
@@ -26,26 +25,19 @@ const UsersPage = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let userId = userData.username.toLowerCase().replace(/ /g, '-');
   
-    if (!editingUserId) {
-      userId = userCount.toString().padStart(2, '0');
-      setUserCount(userCount + 1);
-    }
-  
-    if (editingUserId) {
+    if (editingUserEmail) {
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
-          user.id === editingUserId
+          user.email === editingUserEmail
             ? { ...user, ...userData }
             : user
         )
       );
-      setEditingUserId(null);
+      setEditingUserEmail(null);
       toast.success("User updated successfully!"); // ✅ Success alert for update
     } else {
       const newUser = new User(
-        userId,
         userData.username,
         userData.email,
         userData.password,
@@ -66,19 +58,19 @@ const UsersPage = () => {
     setShowPopup(false); // Close the popup after submission
   };
 
-  const handleOptionsClick = (userId: string) => {
-    setSelectedUserId(prev => (prev === userId ? null : userId)); // Toggle visibility
+  const handleOptionsClick = (email: string) => {
+    setSelectedUserEmail(prev => (prev === email ? null : email)); // Toggle visibility
   };
 
-  const handleDeleteUser = (userId: string) => {
-    setUsers(users.filter(user => user.id !== userId));
-    setSelectedUserId(null);
+  const handleDeleteUser = (email: string) => {
+    setUsers(users.filter(user => user.email !== email));
+    setSelectedUserEmail(null);
   
     toast.success("User deleted successfully!"); // ✅ Success alert for user deletion
   };
 
-  const handleUpdateUser = (userId: string) => {
-    const user = users.find(u => u.id === userId);
+  const handleUpdateUser = (email: string) => {
+    const user = users.find(u => u.email === email);
     if (user) {
       setUserData({
         username: user.username,
@@ -86,7 +78,7 @@ const UsersPage = () => {
         password: user.password,
         role: user.role
       });
-      setEditingUserId(userId); // Track the user being edited
+      setEditingUserEmail(email); // Track the user being edited
       setShowPopup(true);
   
       toast.info(`Editing user: ${user.username}`); // Toast for editing user
@@ -217,21 +209,21 @@ const UsersPage = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-y-5 gap-x-2 px-4 mt-8">
         {users.map((user) => (
-          <article key={user.id} className="w-[250px] h-[250px] mx-auto hover:animate-background rounded-xl shadow-2xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]">
+          <article key={user.email} className="w-[250px] h-[250px] mx-auto hover:animate-background rounded-xl shadow-2xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]">
             <div className="relative">
               <button
                 className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-                onClick={() => handleOptionsClick(user.id)}
+                onClick={() => handleOptionsClick(user.email)}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-6 h-6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12 12.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12 18.75a.75.75 0 100-1.5.75.75 0 000 1.5z"/>
                 </svg>
               </button>
           
-              {selectedUserId === user.id && (
+              {selectedUserEmail === user.email && (
                 <div className="absolute top-0 right-0 mt-8 w-32 bg-gray-100 shadow-lg rounded-lg p-2">
-                  <button onClick={() => handleUpdateUser(user.id)} className="block w-full text-left text-gray-700 hover:bg-gray-200 p-2">Update</button>
-                  <button onClick={() => handleDeleteUser(user.id)} className="block w-full text-left text-gray-700 hover:bg-red-300 p-2">Delete</button>
+                  <button onClick={() => handleUpdateUser(user.email)} className="block w-full text-left text-gray-700 hover:bg-gray-200 p-2">Update</button>
+                  <button onClick={() => handleDeleteUser(user.email)} className="block w-full text-left text-gray-700 hover:bg-red-300 p-2">Delete</button>
                 </div>
               )}
             </div>
@@ -243,7 +235,6 @@ const UsersPage = () => {
                 Password (Encoded)~: {user.password ? btoa(user.password) : 'No password available'}
               </p>
               <p className="mt-1 text-sm text-gray-700">Role: {user.role}</p>
-              <p className="mt-1 text-sm text-gray-700">User ID: {user.id}</p>
             </div>
           </article>
         ))}
