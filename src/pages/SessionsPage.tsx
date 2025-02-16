@@ -42,7 +42,7 @@ const SessionsPage = () => {
     if (editingSessionId) {
       setSessions((prevSessions) =>
         prevSessions.map((session) =>
-          session.id === editingSessionId
+          session.sessionID === editingSessionId
             ? { ...session, ...sessionData }
             : session
         )
@@ -85,14 +85,14 @@ const SessionsPage = () => {
   
 
   const handleDeleteSession = (sessionId: string) => {
-    setSessions(sessions.filter(session => session.id !== sessionId));
+    setSessions(sessions.filter(session => session.sessionID !== sessionId));
     setShowOptions(prev => ({ ...prev, [sessionId]: false }));
   
     toast.success("Session deleted successfully!");
   };
 
   const handleUpdateSession = (sessionId: string) => {
-    const session = sessions.find(s => s.id === sessionId);
+    const session = sessions.find(s => s.sessionID === sessionId);
     if (session) {
       setSessionData({
         name: session.name,
@@ -278,14 +278,14 @@ const SessionsPage = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-y-5 gap-x-2 px-4 mt-8">
         {sessions.map((session) => (
           <article
-            key={session.id}
+            key={session.sessionID}
             className="w-[250px] h-[250px] mx-auto hover:animate-background rounded-xl shadow-2xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]"
           >
             {/* Three dots icon */}
             <div className="relative">
               <button
                 className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-                onClick={() => handleOptionsClick(session.id)}
+                onClick={() => handleOptionsClick(session.sessionID)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -303,16 +303,16 @@ const SessionsPage = () => {
                 </svg>
               </button>
 
-              {selectedSessionId === session.id && (
+              {selectedSessionId === session.sessionID && (
                 <div className="absolute top-0 right-0 mt-8 w-32 bg-gray-100 shadow-lg rounded-lg p-2">
                   <button
-                    onClick={() => handleUpdateSession(session.id)}
+                    onClick={() => handleUpdateSession(session.sessionID)}
                     className="block w-full text-left text-gray-700 hover:bg-gray-200 p-2"
                   >
                     Update
                   </button>
                   <button
-                    onClick={() => handleDeleteSession(session.id)}
+                    onClick={() => handleDeleteSession(session.sessionID)}
                     className="block w-full text-left text-gray-700 hover:bg-red-300 p-2"
                   >
                     Delete
@@ -328,7 +328,7 @@ const SessionsPage = () => {
               <p className="mt-1 text-sm ">{session.description}</p>
               <p className="text-sm text-gray-700">Location: {session.location}</p>
               <p className="text-sm text-gray-700">Speaker: {session.speakerName}</p>
-              <p className="text-sm text-gray-700">Session ID: {session.id}</p>
+              <p className="text-sm text-gray-700">Session ID: {session.sessionID}</p>
 
               <button
                 className="mt-4 w-full bg-gray-800 text-white h-9 rounded-xl hover:bg-gray-700 transition"
