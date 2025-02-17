@@ -51,7 +51,7 @@ const AuthPage = () => {
       </div>
 
       {/* Form */}
-      <div className="w-full max-w-md p-12 -mt-80 flex flex-col justify-center items-center h-full">
+      <div className="w-full max-w-md p-12 -mt-96 flex flex-col justify-center items-center h-full">
         <div className="relative w-full flex flex-col justify-center items-center space-y-6">
           {/* Transition Wrapper */}
           <div
