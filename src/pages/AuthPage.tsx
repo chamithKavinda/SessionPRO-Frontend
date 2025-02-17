@@ -189,9 +189,24 @@ const AuthPage = () => {
                       Password
                     </label>
                   </div>
+
+                  {/* Student Checkbox */}
+                  <div className="flex items-center mb-6">
+                    <input
+                      id="student"
+                      type="checkbox"
+                      className="w-4 h-4 border border-black rounded-sm focus:ring-2"
+                    />
+                    <label
+                      htmlFor="student"
+                      className="ml-2 text-base text-gray-700"
+                    >
+                      Student
+                    </label>
+                  </div>
                 </form>
                 <button
-                  className="w-full max-w-xs h-10 text-white font-semibold rounded-md bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 hover:bg-indigo-600 mb-4"
+                  className="w-full max-w-xs h-10 text-white font-semibold rounded-md bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 hover:bg-indigo-600 mb-6"
                   onClick={handleSignUp}
                 >
                   Sign Up
@@ -208,6 +223,7 @@ const AuthPage = () => {
                 </p>
               </div>
             )}
+
           </div>
         </div>
       </div>
