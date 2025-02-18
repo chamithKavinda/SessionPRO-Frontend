@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import NavBar from '../components/NavBar';
 import SpeakerFormPopup from '../components/SpeakerFormPopup';
 import SpeakerCard from '../components/SpeakerCard';
@@ -15,46 +16,87 @@ const SpeakersPage = () => {
     name: '',
     bio: '',
     expertise: '',
-    email: '',
-    image: ''
+    speakerEmail: '',
+    image: '' 
   });
+  const [file, setFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    fetchSpeakers();
+  }, []);
+
+  const fetchSpeakers = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/speaker');
+      setSpeakers(response.data);
+    } catch (error) {
+      console.error("Error fetching speakers:", error);
+      toast.error("Failed to fetch speakers");
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setSpeakerData({ ...speakerData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSpeakerData({ ...speakerData, image: reader.result as string });
+      };
+      reader.readAsDataURL(file);
+      setFile(file);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append('name', speakerData.name);
+    formData.append('bio', speakerData.bio);
+    formData.append('expertise', speakerData.expertise);
+    formData.append('speakerEmail', speakerData.speakerEmail);
+    if (file) {
+      formData.append('image', file); 
+    }
+
     if (editingSpeakerEmail) {
-      setSpeakers((prevSpeakers) =>
-        prevSpeakers.map((speaker) =>
-          speaker.speakerEmail === editingSpeakerEmail ? { ...speaker, ...speakerData } : speaker
-        )
-      );
-      setEditingSpeakerEmail(null);
-      toast.success("Speaker updated successfully!");
+      try {
+        const response = await axios.put(`http://localhost:3000/speaker/${editingSpeakerEmail}`, formData);
+        setSpeakers((prevSpeakers) =>
+          prevSpeakers.map((speaker) =>
+            speaker.speakerEmail === editingSpeakerEmail ? response.data : speaker
+          )
+        );
+        setEditingSpeakerEmail(null);
+        toast.success("Speaker updated successfully!");
+      } catch (error) {
+        console.error("Error updating speaker:", error);
+        toast.error("Failed to update speaker");
+      }
     } else {
-      const newSpeaker = new Speaker(
-        speakerData.name,
-        speakerData.bio,
-        speakerData.expertise,
-        speakerData.email,
-        speakerData.image
-      );
-      setSpeakers((prevSpeakers) => [...prevSpeakers, newSpeaker]);
-      toast.success("Speaker added successfully!");
+      try {
+        const response = await axios.post('http://localhost:3000/speaker', formData);
+        setSpeakers((prevSpeakers) => [...prevSpeakers, response.data]);
+        toast.success("Speaker added successfully!");
+      } catch (error) {
+        console.error("Error adding speaker:", error);
+        toast.error("Failed to add speaker");
+      }
     }
 
     setSpeakerData({
       name: '',
       bio: '',
       expertise: '',
-      email: '',
+      speakerEmail: '',
       image: ''
     });
-
+    setFile(null);
     setShowPopup(false);
   };
 
@@ -62,43 +104,37 @@ const SpeakersPage = () => {
     setSelectedSpeakerEmail((prev) => (prev === speakerEmail ? null : speakerEmail));
   };
 
-  const handleDeleteSpeaker = (speakerEmail: string) => {
-    setSpeakers(speakers.filter((speaker) => speaker.speakerEmail !== speakerEmail));
-    setSelectedSpeakerEmail(null);
-
-    toast.success("Speaker deleted successfully!");
+  const handleDeleteSpeaker = async (speakerEmail: string) => {
+    try {
+      await axios.delete(`http://localhost:3000/speaker/${speakerEmail}`);
+      setSpeakers(speakers.filter((speaker) => speaker.speakerEmail !== speakerEmail));
+      toast.success("Speaker deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting speaker:", error);
+      toast.error("Failed to delete speaker");
+    }
   };
 
   const handleUpdateSpeaker = (speakerEmail: string) => {
     const speaker = speakers.find((s) => s.speakerEmail === speakerEmail);
     if (speaker) {
+      const image = speaker.image.startsWith('data:image/') ? speaker.image : `data:image/jpeg;base64,${speaker.image}`;
       setSpeakerData({
         name: speaker.name,
         bio: speaker.bio,
         expertise: speaker.expertise,
-        email: speaker.speakerEmail,
-        image: speaker.image
+        speakerEmail: speaker.speakerEmail,
+        image: image
       });
       setEditingSpeakerEmail(speakerEmail);
       setShowPopup(true);
-
       toast.info(`Editing speaker: ${speaker.name}`);
-    }
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setSpeakerData({ ...speakerData, image: reader.result as string });
-    };
-    if (file) {
-      reader.readAsDataURL(file);
     }
   };
 
   const removeImage = () => {
     setSpeakerData({ ...speakerData, image: '' });
+    setFile(null);
   };
 
   return (
