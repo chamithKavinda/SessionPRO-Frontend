@@ -1,4 +1,4 @@
-import React from 'react'
+import {} from 'react'
 import NavBar from '../components/NavBar'
 
 const MySessionPage = () => {

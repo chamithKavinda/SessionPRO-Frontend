@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import NavBar from '../components/NavBar';
 import SessionFormPopup from '../components/SessionFormPopup';
 import SessionCard from '../components/SessionCard';
@@ -8,7 +9,6 @@ import { toast } from "react-toastify";
 const SessionsPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [sessions, setSessions] = useState<Session[]>([]);
-  const [sessionCount, setSessionCount] = useState(1);
   const [editingSessionId, setEditingSessionId] = useState<string | null>(null);
   const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
 
@@ -22,6 +22,20 @@ const SessionsPage = () => {
     speakerName: ''
   });
 
+  useEffect(() => {
+    fetchSessions();
+  }, []);
+
+  const fetchSessions = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/session');
+      setSessions(response.data);
+    } catch (error) {
+      console.error("Error fetching sessions:", error);
+      toast.error("Failed to fetch sessions");
+    }
+  };
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
@@ -29,39 +43,44 @@ const SessionsPage = () => {
     setSessionData({ ...sessionData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let sessionId = sessionData.date;
 
-    if (!editingSessionId) {
-      sessionId = sessionCount.toString().padStart(2, '0');
-      setSessionCount(sessionCount + 1);
-    }
+    // Combine date and time
+    const dateTime = new Date(`${sessionData.date}T00:00:00.000Z`).toISOString();
+    const timeOnly = new Date(`1970-01-01T${sessionData.time}:00.000Z`).toISOString();
 
     if (editingSessionId) {
-      setSessions((prevSessions) =>
-        prevSessions.map((session) =>
-          session.sessionID === editingSessionId
-            ? { ...session, ...sessionData }
-            : session
-        )
-      );
-      setEditingSessionId(null);
-      toast.success("Session updated successfully!"); 
+      try {
+        const response = await axios.put(`http://localhost:3000/session/${editingSessionId}`, {
+          ...sessionData,
+          date: dateTime,
+          time: timeOnly // Send the time in ISO-8601 format
+        });
+        setSessions((prevSessions) =>
+          prevSessions.map((session) =>
+            session.sessionID === editingSessionId ? response.data : session
+          )
+        );
+        setEditingSessionId(null);
+        toast.success("Session updated successfully!");
+      } catch (error) {
+        console.error("Error updating session:", error);
+        toast.error("Failed to update session");
+      }
     } else {
-      const newSession = new Session(
-        sessionId,
-        sessionData.name,
-        sessionData.description,
-        sessionData.date,
-        sessionData.time,
-        sessionData.location,
-        sessionData.duration,
-        sessionData.speakerName
-      );
-      setSessions((prevSessions) => [...prevSessions, newSession]);
-
-      toast.success("Session added successfully!");
+      try {
+        const response = await axios.post('http://localhost:3000/session', {
+          ...sessionData,
+          date: dateTime,
+          time: timeOnly // Send the time in ISO-8601 format
+        });
+        setSessions((prevSessions) => [...prevSessions, response.data]);
+        toast.success("Session added successfully!");
+      } catch (error) {
+        console.error("Error adding session:", error);
+        toast.error("Failed to add session");
+      }
     }
 
     setSessionData({
@@ -74,16 +93,22 @@ const SessionsPage = () => {
       speakerName: ''
     });
 
-    setShowPopup(false); 
+    setShowPopup(false);
   };
 
   const handleOptionsClick = (sessionId: string) => {
-    setSelectedSessionId(prev => (prev === sessionId ? null : sessionId)); 
+    setSelectedSessionId(prev => (prev === sessionId ? null : sessionId));
   };
 
-  const handleDeleteSession = (sessionId: string) => {
-    setSessions(sessions.filter(session => session.sessionID !== sessionId));
-    toast.success("Session deleted successfully!");
+  const handleDeleteSession = async (sessionId: string) => {
+    try {
+      await axios.delete(`http://localhost:3000/session/${sessionId}`);
+      setSessions(sessions.filter(session => session.sessionID !== sessionId));
+      toast.success("Session deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting session:", error);
+      toast.error("Failed to delete session");
+    }
   };
 
   const handleUpdateSession = (sessionId: string) => {
@@ -92,13 +117,13 @@ const SessionsPage = () => {
       setSessionData({
         name: session.name,
         description: session.description,
-        date: session.date,
-        time: session.time,
+        date: session.date.split('T')[0], // Extract date part
+        time: session.time.split('T')[1].substring(0, 5), // Extract time part
         location: session.location,
         duration: session.duration,
         speakerName: session.speakerName
       });
-      setEditingSessionId(sessionId); 
+      setEditingSessionId(sessionId);
       setShowPopup(true);
       toast.info(`Editing session: ${session.name}`);
     }

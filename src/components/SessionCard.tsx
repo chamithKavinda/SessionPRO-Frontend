@@ -19,10 +19,13 @@ interface SessionCardProps {
 }
 
 const SessionCard: React.FC<SessionCardProps> = ({ session, handleOptionsClick, handleUpdateSession, handleDeleteSession, selectedSessionId }) => {
+  const formattedDate = new Date(session.date).toLocaleDateString();
+  const formattedTime = new Date(session.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
   return (
     <article
       key={session.sessionID}
-      className="w-[250px] h-[250px] mx-auto hover:animate-background rounded-xl shadow-2xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]"
+      className="w-[250px] h-[295px] mx-auto hover:animate-background rounded-xl shadow-2xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]"
     >
       <div className="relative">
         <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-800" onClick={() => handleOptionsClick(session.sessionID)}>
@@ -40,12 +43,13 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, handleOptionsClick, 
       </div>
 
       <div className="rounded-[10px] bg-white p-4 h-full !pt-20 sm:p-6">
-        <time className="block text-xs -mt-12 text-gray-500">{session.date}</time>
-        <h3 className="mt-0.5 text-lg font-medium text-gray-900">{session.name}</h3>
+        <time className="block text-xs -mt-12 text-gray-500">{formattedDate}</time>
+        <p className="block text-xs mt-1 text-gray-500">{formattedTime}</p>
+        <h3 className="mt-2 text-lg font-medium text-gray-900">{session.name}</h3>
         <p className="mt-1 text-sm ">{session.description}</p>
-        <p className="text-sm text-gray-700">Location: {session.location}</p>
-        <p className="text-sm text-gray-700">Speaker: {session.speakerName}</p>
-        <p className="text-sm text-gray-700">Session ID: {session.sessionID}</p>
+        <p className="text-sm mt-1 text-gray-700">Location: {session.location}</p>
+        <p className="text-sm mt-1 text-gray-700">Speaker: {session.speakerName}</p>
+        <p className="text-sm mt-1 text-gray-700">Session ID: {session.sessionID}</p>
 
         <button
           className="mt-4 w-full bg-gray-800 text-white h-9 rounded-xl hover:bg-gray-700 transition"
