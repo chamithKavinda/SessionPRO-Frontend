@@ -190,20 +190,22 @@ const AuthPage = () => {
                     </label>
                   </div>
 
-                  {/* Student Checkbox */}
+                  {/* User Checkbox */}
                   <div className="flex items-center mb-6">
                     <input
-                      id="student"
+                      id="user"
                       type="checkbox"
                       className="w-4 h-4 border border-black rounded-sm focus:ring-2"
+                      required
                     />
                     <label
-                      htmlFor="student"
+                      htmlFor="user"
                       className="ml-2 text-base text-gray-700"
                     >
-                      Student
+                      User
                     </label>
                   </div>
+
                 </form>
                 <button
                   className="w-full max-w-xs h-10 text-white font-semibold rounded-md bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 hover:bg-indigo-600 mb-6"

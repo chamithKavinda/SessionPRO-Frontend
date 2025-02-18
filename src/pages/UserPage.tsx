@@ -151,8 +151,8 @@ const UsersPage = () => {
                     onChange={handleInputChange}
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pr-8"
                     required
-                  >
-                    <option value="student">Student</option>
+                  >~
+                    <option value="student">User</option>
                     <option value="admin">Admin</option>
                   </select>
                   <span className="absolute right-2 top-12 transform -translate-y-1/2 text-gray-500">
