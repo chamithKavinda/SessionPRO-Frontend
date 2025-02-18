@@ -1,6 +1,6 @@
 import {} from 'react';
 import NavBar from "../components/NavBar";
-import Card from "../components/Card";
+import Card from "../components/DashboardCard";
 import ChartContainer from "../components/ChartContainer";
 
 const Dashboard = () => {
