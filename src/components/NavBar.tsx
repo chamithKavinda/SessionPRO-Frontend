@@ -12,7 +12,7 @@ export default function NavBar() {
   return (
     <div>
       {/* Navigation Bar */}
-      <nav className="bg-gray-100">
+      <nav className="fixed top-0 w-full z-50 bg-gray-100 ">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-1">
             <img src="src/assets/SessionPro Icon.png" alt="Logo" className="h-16 w-20 mt-1" />
@@ -63,6 +63,7 @@ export default function NavBar() {
           </button>
         </div>
       </nav>
+      <div className="h-20"></div>
     </div>
   );
 }
