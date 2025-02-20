@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { toast } from "react-toastify";
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store';
@@ -17,6 +17,7 @@ interface SessionCardProps {
 
 const SessionCard: React.FC<SessionCardProps> = ({ session, isRegistered, handleOptionsClick, handleUpdateSession, handleDeleteSession, selectedSessionId, handleRemoveClick }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const [showOptions, setShowOptions] = useState(false);
 
   const formattedDate = new Date(session.date).toLocaleDateString();
   const formattedTime = new Date(session.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -31,6 +32,16 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, isRegistered, handle
     toast.success("Session removed successfully!", { position: "bottom-right", autoClose: 3000 });
   };
 
+  const handleOptions = (sessionId: string) => {
+    handleOptionsClick(sessionId);
+    setShowOptions(!showOptions);
+  };
+
+  const handleUpdate = (sessionId: string) => {
+    handleUpdateSession(sessionId);
+    setShowOptions(false);
+  };
+
   return (
     <article
       key={session.sessionID}
@@ -38,16 +49,16 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, isRegistered, handle
     >
       <div className="relative">
         {!isRegistered && (
-          <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-800" onClick={() => handleOptionsClick(session.sessionID)}>
+          <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-800" onClick={() => handleOptions(session.sessionID)}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12 12.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12 18.75a.75.75 0 100-1.5.75.75 0 000 1.5z" />
             </svg>
           </button>
         )}
 
-        {selectedSessionId === session.sessionID && (
+        {showOptions && selectedSessionId === session.sessionID && (
           <div className="absolute top-0 right-0 mt-8 w-32 bg-gray-100 shadow-lg rounded-lg p-2">
-            <button onClick={() => handleUpdateSession(session.sessionID)} className="block w-full text-left text-gray-700 hover:bg-gray-200 p-2">Update</button>
+            <button onClick={() => handleUpdate(session.sessionID)} className="block w-full text-left text-gray-700 hover:bg-gray-200 p-2">Update</button>
             <button onClick={() => handleDeleteSession(session.sessionID)} className="block w-full text-left text-gray-700 hover:bg-red-300 p-2">Delete</button>
           </div>
         )}
