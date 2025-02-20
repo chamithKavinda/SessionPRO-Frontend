@@ -2,26 +2,20 @@ import React from 'react';
 import { toast } from "react-toastify";
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store';
-import { registerSession } from '../reducer/mySession-reducer';
+import { registerSession} from '../reducer/mySession-reducer';
+import Session from '../models/session';
 
 interface SessionCardProps {
-  session: {
-    sessionID: string;
-    name: string;
-    description: string;
-    date: string;
-    time: string;
-    location: string;
-    duration: string;
-    speakerName: string;
-  };
+  session: Session;
+  isRegistered: boolean;
   handleOptionsClick: (sessionId: string) => void;
   handleUpdateSession: (sessionId: string) => void;
   handleDeleteSession: (sessionId: string) => void;
   selectedSessionId: string | null;
+  handleRemoveClick: (sessionId: string) => void;
 }
 
-const SessionCard: React.FC<SessionCardProps> = ({ session, handleOptionsClick, handleUpdateSession, handleDeleteSession, selectedSessionId }) => {
+const SessionCard: React.FC<SessionCardProps> = ({ session, isRegistered, handleOptionsClick, handleUpdateSession, handleDeleteSession, selectedSessionId, handleRemoveClick }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const formattedDate = new Date(session.date).toLocaleDateString();
@@ -30,6 +24,11 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, handleOptionsClick, 
   const handleRegister = () => {
     dispatch(registerSession(session));
     toast.success("Registration successful!", { position: "bottom-right", autoClose: 3000 });
+  };
+
+  const handleRemove = () => {
+    handleRemoveClick(session.sessionID);
+    toast.success("Session removed successfully!", { position: "bottom-right", autoClose: 3000 });
   };
 
   return (
@@ -61,12 +60,21 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, handleOptionsClick, 
         <p className="text-sm mt-1 text-gray-700">Speaker: {session.speakerName}</p>
         <p className="text-sm mt-1 text-gray-700">Session ID: {session.sessionID}</p>
 
-        <button
-          className="mt-4 w-full bg-gray-800 text-white h-9 rounded-xl hover:bg-gray-700 transition"
-          onClick={handleRegister}
-        >
-          Register
-        </button>
+        {isRegistered ? (
+          <button
+            className="mt-4 w-full bg-red-600 text-white h-9 rounded-xl hover:bg-red-500 transition"
+            onClick={handleRemove}
+          >
+            Remove
+          </button>
+        ) : (
+          <button
+            className="mt-4 w-full bg-gray-800 text-white h-9 rounded-xl hover:bg-gray-700 transition"
+            onClick={handleRegister}
+          >
+            Register
+          </button>
+        )}
       </div>
     </article>
   );

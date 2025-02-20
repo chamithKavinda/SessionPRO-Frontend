@@ -16,9 +16,15 @@ const mySessionSlice = createSlice({
     registerSession: (state, action: PayloadAction<Session>) => {
       state.registeredSessions.push(action.payload);
       localStorage.setItem('registeredSessions', JSON.stringify(state.registeredSessions));
+    },
+    removeSession: (state, action: PayloadAction<string>) => {
+      state.registeredSessions = state.registeredSessions.filter(
+        session => session.sessionID !== action.payload
+      );
+      localStorage.setItem('registeredSessions', JSON.stringify(state.registeredSessions));
     }
   }
 });
 
-export const { registerSession } = mySessionSlice.actions;
+export const { registerSession, removeSession } = mySessionSlice.actions;
 export default mySessionSlice.reducer;

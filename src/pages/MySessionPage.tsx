@@ -1,12 +1,18 @@
 import React from 'react';
 import NavBar from '../components/NavBar';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store/store';
 import SessionCard from '../components/SessionCard';
 import Session from '../models/session';
+import { removeSession } from '../reducer/mySession-reducer';
 
 const MySessionPage: React.FC = () => {
+  const dispatch = useDispatch();
   const registeredSessions = useSelector((state: RootState) => state.mySession.registeredSessions);
+
+  const handleRemoveClick = (sessionID: string) => {
+    dispatch(removeSession(sessionID));
+  };
 
   return (
     <div>
@@ -17,10 +23,12 @@ const MySessionPage: React.FC = () => {
             <SessionCard
               key={session.sessionID}
               session={session}
+              isRegistered={true}
               handleOptionsClick={() => {}}
               handleUpdateSession={() => {}}
               handleDeleteSession={() => {}}
               selectedSessionId={null}
+              handleRemoveClick={() => handleRemoveClick(session.sessionID)}
             />
           ))
         ) : (
