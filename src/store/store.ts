@@ -3,6 +3,7 @@ import authReducer from "../reducer/auth-reducer";
 import sessionReducer from "../reducer/session-reducer";
 import speakerReducer from "../reducer/speaker-reducer";
 import userReducer from "../reducer/user-reducer";
+import mySessionReducer from "../reducer/mySession-reducer";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     session: sessionReducer,
     speaker: speakerReducer,
     user: userReducer,
+    mySession: mySessionReducer,
   },
 });
 

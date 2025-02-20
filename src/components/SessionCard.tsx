@@ -1,5 +1,8 @@
 import React from 'react';
 import { toast } from "react-toastify";
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../store/store';
+import { registerSession } from '../reducer/mySession-reducer';
 
 interface SessionCardProps {
   session: {
@@ -19,8 +22,15 @@ interface SessionCardProps {
 }
 
 const SessionCard: React.FC<SessionCardProps> = ({ session, handleOptionsClick, handleUpdateSession, handleDeleteSession, selectedSessionId }) => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const formattedDate = new Date(session.date).toLocaleDateString();
   const formattedTime = new Date(session.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  const handleRegister = () => {
+    dispatch(registerSession(session));
+    toast.success("Registration successful!", { position: "bottom-right", autoClose: 3000 });
+  };
 
   return (
     <article
@@ -53,7 +63,8 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, handleOptionsClick, 
 
         <button
           className="mt-4 w-full bg-gray-800 text-white h-9 rounded-xl hover:bg-gray-700 transition"
-          onClick={() => toast.success("Registration successful!", { position: "bottom-right", autoClose: 3000 })}>
+          onClick={handleRegister}
+        >
           Register
         </button>
       </div>
