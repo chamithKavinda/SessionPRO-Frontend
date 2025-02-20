@@ -59,10 +59,14 @@ const UsersPage = () => {
     setSelectedUserEmail((prev) => (prev === email ? null : email));
   };
 
-  const handleDeleteUser = (email: string) => {
-    dispatch(deleteUser(email));
-    setSelectedUserEmail(null);
-    toast.success("User deleted successfully!");
+  const handleDeleteUser = async (email: string) => {
+    try {
+      await dispatch(deleteUser(email)).unwrap();
+      setSelectedUserEmail(null);
+      toast.success("User deleted successfully!");
+    } catch {
+      toast.error("Failed to delete user.");
+    }
   };
 
   const handleUpdateUser = (email: string) => {

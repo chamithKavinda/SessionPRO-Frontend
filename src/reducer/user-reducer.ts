@@ -32,12 +32,14 @@ export const getUsers = createAsyncThunk('user/getUsers', async () => {
 
 export const deleteUser = createAsyncThunk('user/deleteUser', async (email: string) => {
   try {
-    const response = await api.delete(`/${email}`);
-    return response.data;
+    await api.delete(`/${email}`);
+    return email; 
   } catch (error) {
     console.log('Error deleting user:', error);
+    throw error; 
   }
 });
+
 
 export const updateUser = createAsyncThunk('user/updateUser', async (user: User) => {
   try {
@@ -76,14 +78,14 @@ const userSlice = createSlice({
       });
 
     builder
-      .addCase(deleteUser.rejected, (state, action) => {
-        console.error('Failed to delete user:', action.payload);
-      })
       .addCase(deleteUser.fulfilled, (state, action) => {
-        return state.filter((user: User) => user.email !== action.payload.email);
+        return state.filter((user: User) => user.email !== action.payload); 
       })
       .addCase(deleteUser.pending, (state, action) => {
         console.log('Pending delete user', action.payload);
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
+        console.error('Failed to delete user:', action.payload);
       });
 
     builder
