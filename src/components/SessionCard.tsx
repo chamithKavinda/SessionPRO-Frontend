@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store';
 import { registerSession } from '../reducer/mySession-reducer';
 import Session from '../models/session';
+import { FaMapMarkerAlt, FaUser } from 'react-icons/fa'; 
 
 interface SessionCardProps {
   session: Session;
@@ -44,9 +45,9 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, isRegistered, handle
 
   return (
     <article
-      key={session.sessionID}
-      className="w-[250px] h-[295px] mx-auto hover:animate-background rounded-xl shadow-2xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]"
-    >
+  key={session.sessionID}
+  className="w-[250px] h-[350px] mx-auto transition-transform duration-300 transform hover:translate-y-[-10px] hover:shadow-[0_20px_50px_rgba(0,0,0,0.2)] rounded-xl shadow-2xl hover:bg-[length:400%_400%] hover:[animation-duration:_4s]"
+>
       <div className="relative">
         {!isRegistered && (
           <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-800" onClick={() => handleOptions(session.sessionID)}>
@@ -67,27 +68,29 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, isRegistered, handle
       <div className="rounded-[10px] bg-white p-4 h-full !pt-20 sm:p-6">
         <time className="block text-xs -mt-12 text-gray-500">{formattedDate}</time>
         <p className="block text-xs mt-1 text-gray-500">{formattedTime}</p>
-        <h3 className="mt-2 text-lg font-medium text-gray-900">{session.name}</h3>
-        <p className="mt-1 text-sm ">{session.description}</p>
-        <p className="text-sm mt-1 text-gray-700">Location: {session.location}</p>
-        <p className="text-sm mt-1 text-gray-700">Speaker: {session.speakerName}</p>
-        <p className="text-sm mt-1 text-gray-700">Session ID: {session.sessionID}</p>
+        <h3 className="mt-3 text-lg font-medium text-gray-900">{session.name}</h3>
+        <p className="mt-2 text-sm">{session.description}</p>
+        <p className="text-sm mt-3 text-gray-700"><FaUser className="inline-block mr-1"/> {session.speakerName}</p>
+        <p className="text-sm mt-2 text-gray-700"><FaMapMarkerAlt className="inline-block mr-1"/> {session.location}</p>
+        <p className="text-sm mt-4 text-gray-700">Session ID: {session.sessionID}</p>
 
-        {isRegistered ? (
-          <button
-            className="mt-4 w-full bg-red-500 text-white h-9 rounded-xl hover:bg-red-500 transition"
-            onClick={handleRemove}
-          >
-            Remove
-          </button>
-        ) : (
-          <button
-            className="mt-4 w-full bg-gray-800 text-white h-9 rounded-xl hover:bg-gray-700 transition"
-            onClick={handleRegister}
-          >
-            Register
-          </button>
-        )}
+        <div className="mt-4 w-full">
+          {isRegistered ? (
+            <button
+              className="w-full bg-red-500 text-white h-9 rounded-xl hover:bg-red-500 transition"
+              onClick={handleRemove}
+            >
+              Remove Session
+            </button>
+          ) : (
+            <button
+              className="w-full bg-gray-600 text-white h-9 rounded-xl hover:bg-gray-800 transition"
+              onClick={handleRegister}
+            >
+              Register
+            </button>
+          )}
+        </div>
       </div>
     </article>
   );
