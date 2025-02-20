@@ -2,6 +2,7 @@ import React from 'react';
 
 interface SessionFormPopupProps {
   showPopup: boolean;
+  formTitle: string; 
   sessionData: { 
     name: string;
     description: string;
@@ -16,7 +17,7 @@ interface SessionFormPopupProps {
   onClose: () => void;
 }
 
-const SessionFormPopup: React.FC<SessionFormPopupProps> = ({ showPopup, sessionData, handleInputChange, handleSubmit, onClose }) => {
+const SessionFormPopup: React.FC<SessionFormPopupProps> = ({ showPopup, formTitle, sessionData, handleInputChange, handleSubmit, onClose }) => {
   return (
     showPopup && (
       <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -42,7 +43,7 @@ const SessionFormPopup: React.FC<SessionFormPopupProps> = ({ showPopup, sessionD
             </svg>
           </button>
           <form onSubmit={handleSubmit}>
-            <h2 className="text-2xl mb-6 text-center font-bold">Add New Session</h2>
+            <h2 className="text-2xl mb-6 text-center font-bold">{formTitle}</h2> {/* Update this line */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">Session Name</label>

@@ -90,18 +90,27 @@ const SessionsPage: React.FC = () => {
     }
   };
 
+  const handleRemoveClick = (sessionId: string) => {
+    // Implement the logic to remove the session here
+    console.log(`Remove session: ${sessionId}`);
+  };
+
   return (
     <div>
       <NavBar />
       <button
         className="relative rounded-full bg-black ml-8 mt-8 px-4 py-2 font-mono font-bold text-white transition-colors duration-700 ease-linear before:absolute before:right-1/2 before:top-1/2 before:-z-[1] before:h-3/4 before:w-2/3 before:origin-bottom-left before:-translate-y-1/2 before:translate-x-1/2 before:animate-ping before:rounded-full before:bg-black hover:bg-black hover:before:bg-black"
-        onClick={() => setShowPopup(true)}
+        onClick={() => {
+          setEditingSessionId(null);
+          setShowPopup(true);
+        }}
       >
         Add Session
       </button>
 
       <SessionFormPopup
         showPopup={showPopup}
+        formTitle={editingSessionId ? "Update Session" : "Add New Session"}
         sessionData={sessionData}
         handleInputChange={handleInputChange}
         handleSubmit={handleSubmit}
@@ -113,10 +122,12 @@ const SessionsPage: React.FC = () => {
           <SessionCard
             key={session.sessionID}
             session={session}
+            isRegistered={false} // Provide a value for isRegistered
             handleOptionsClick={handleOptionsClick}
             handleUpdateSession={handleUpdateSession}
             handleDeleteSession={handleDeleteSession}
             selectedSessionId={selectedSessionId}
+            handleRemoveClick={handleRemoveClick} // Provide the handleRemoveClick function
           />
         ))}
       </div>
