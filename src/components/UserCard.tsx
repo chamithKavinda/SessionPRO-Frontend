@@ -14,10 +14,12 @@ interface UserCardProps {
 }
 
 const UserCard: React.FC<UserCardProps> = ({ user, handleOptionsClick, handleUpdateUser, handleDeleteUser, selectedUserEmail }) => {
+  const shortEncodedPassword = user.password ? btoa(user.password).substr(0, 20) + '...' : 'No password available';
+
   return (
     <article
       key={user.email}
-      className="w-[250px] h-[250px] mx-auto hover:animate-background rounded-xl shadow-2xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]"
+      className="w-[250px] h-[210px] mx-auto hover:animate-background rounded-xl shadow-2xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]"
     >
       <div className="relative">
         <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-800" onClick={() => handleOptionsClick(user.email)}>
@@ -35,12 +37,12 @@ const UserCard: React.FC<UserCardProps> = ({ user, handleOptionsClick, handleUpd
       </div>
 
       <div className="rounded-[10px] bg-white p-4 h-full !pt-14 sm:p-6">
-        <h3 className="mt-0.5 text-lg font-medium text-gray-900">{user.username}</h3>
+        <h3 className="mt-0 text-lg font-medium text-gray-900">{user.username}</h3>
+        <p className="mt-1 text-sm text-gray-700">Role: {user.role}</p>
         <p className="mt-2 text-sm">Email: {user.email}</p>
         <p className="mt-1 text-sm text-gray-700">
-          Password (Encoded): {user.password ? btoa(user.password) : 'No password available'}
+          Password (Encoded): {shortEncodedPassword}
         </p>
-        <p className="mt-1 text-sm text-gray-700">Role: {user.role}</p>
       </div>
     </article>
   );

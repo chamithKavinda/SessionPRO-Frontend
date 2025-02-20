@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import NavBar from '../components/NavBar';
 import UserFormPopup from '../components/UserFormPopup';
 import UserCard from '../components/UserCard';
-import User from '../models/user';
+import { RootState, AppDispatch } from '../store/store';
+import { saveUser, getUsers, deleteUser, updateUser } from '../reducer/user-reducer';
 import { toast } from 'react-toastify';
+import User from '../models/user';
 
 const UsersPage = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const users = useSelector((state: RootState) => state.user);
   const [showPopup, setShowPopup] = useState(false);
-  const [users, setUsers] = useState<User[]>([]);
   const [editingUserEmail, setEditingUserEmail] = useState<string | null>(null);
   const [selectedUserEmail, setSelectedUserEmail] = useState<string | null>(null);
 
@@ -18,6 +22,10 @@ const UsersPage = () => {
     role: ''
   });
 
+  useEffect(() => {
+    dispatch(getUsers());
+  }, [dispatch]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
@@ -27,21 +35,12 @@ const UsersPage = () => {
     e.preventDefault();
 
     if (editingUserEmail) {
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user.email === editingUserEmail ? { ...user, ...userData } : user
-        )
-      );
-      setEditingUserEmail(null);
+      const userToUpdate = { ...userData, email: editingUserEmail };
+      dispatch(updateUser(userToUpdate));
       toast.success("User updated successfully!");
     } else {
-      const newUser = new User(
-        userData.username,
-        userData.email,
-        userData.password,
-        userData.role
-      );
-      setUsers((prevUsers) => [...prevUsers, newUser]);
+      const newUser = { ...userData, email: userData.email }; // Ensure email is included in newUser
+      dispatch(saveUser(newUser));
       toast.success("User added successfully!");
     }
 
@@ -53,6 +52,7 @@ const UsersPage = () => {
     });
 
     setShowPopup(false);
+    setEditingUserEmail(null);
   };
 
   const handleOptionsClick = (email: string) => {
@@ -60,14 +60,13 @@ const UsersPage = () => {
   };
 
   const handleDeleteUser = (email: string) => {
-    setUsers(users.filter((user) => user.email !== email));
+    dispatch(deleteUser(email));
     setSelectedUserEmail(null);
-
     toast.success("User deleted successfully!");
   };
 
   const handleUpdateUser = (email: string) => {
-    const user = users.find((u) => u.email === email);
+    const user = users.find((u: User) => u.email === email);
     if (user) {
       setUserData({
         username: user.username,
@@ -77,7 +76,6 @@ const UsersPage = () => {
       });
       setEditingUserEmail(email);
       setShowPopup(true);
-
       toast.info(`Editing user: ${user.username}`);
     }
   };
@@ -101,7 +99,7 @@ const UsersPage = () => {
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-y-5 gap-x-2 px-4 mt-8">
-        {users.map((user) => (
+        {users.map((user: User) => (
           <UserCard
             key={user.email}
             user={user}
