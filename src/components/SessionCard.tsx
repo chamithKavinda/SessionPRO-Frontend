@@ -87,7 +87,7 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, isRegistered, handle
               className="w-full bg-gray-600 text-white h-9 rounded-xl hover:bg-gray-800 transition"
               onClick={handleRegister}
             >
-              Register
+              Add to MySession
             </button>
           )}
         </div>
