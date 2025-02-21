@@ -32,7 +32,7 @@ const MySessionPage: React.FC = () => {
             />
           ))
         ) : (
-          <p className="text-center w-full">No registered sessions yet.</p>
+          <p className="text-center w-full">No Add to My sessions yet.</p>
         )}
       </div>
     </div>

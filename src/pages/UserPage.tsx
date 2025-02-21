@@ -39,7 +39,7 @@ const UsersPage = () => {
       dispatch(updateUser(userToUpdate));
       toast.success("User updated successfully!");
     } else {
-      const newUser = { ...userData, email: userData.email }; // Ensure email is included in newUser
+      const newUser = { ...userData, email: userData.email }; 
       dispatch(saveUser(newUser));
       toast.success("User added successfully!");
     }
