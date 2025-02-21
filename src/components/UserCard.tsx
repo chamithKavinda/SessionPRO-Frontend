@@ -19,7 +19,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, handleOptionsClick, handleUpd
   return (
     <article
       key={user.email}
-      className="w-[250px] h-[220px] mx-auto hover:animate-background rounded-xl shadow-2xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]"
+      className="w-[250px] h-[220px] mx-auto hover:animate-background rounded-xl shadow-2xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s] transition-transform duration-300 transform hover:translate-y-[-10px]"
     >
       <div className="relative">
         <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-800" onClick={() => handleOptionsClick(user.email)}>
