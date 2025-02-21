@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 
 interface SpeakerFormPopupProps {
   showPopup: boolean;
@@ -28,10 +27,77 @@ const SpeakerFormPopup: React.FC<SpeakerFormPopupProps> = ({
   removeImage,
   onClose,
 }) => {
+  const [errors, setErrors] = useState({
+    name: '',
+    expertise: '',
+    speakerEmail: '',
+    bio: '',
+  });
+
+  const validateField = (name: string, value: string) => {
+    const namePattern = /^[A-Za-z\s]+$/;
+    const expertisePattern = /^[A-Za-z\s]+$/;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const bioPattern = /.{4,500}/;
+
+    switch (name) {
+      case 'name':
+        return value.trim() === ''
+          ? 'Speaker name is required'
+          : !namePattern.test(value)
+          ? 'Speaker name should contain only letters and spaces'
+          : '';
+      case 'expertise':
+        return value.trim() === ''
+          ? 'Expertise is required'
+          : !expertisePattern.test(value)
+          ? 'Expertise should contain only letters and spaces'
+          : '';
+      case 'speakerEmail':
+        return value.trim() === ''
+          ? 'Email is required'
+          : !emailPattern.test(value)
+          ? 'Invalid email format'
+          : '';
+      case 'bio':
+        return value.trim() === ''
+          ? 'Bio is required'
+          : !bioPattern.test(value)
+          ? 'Bio should be between 10 and 500 characters'
+          : '';
+      default:
+        return '';
+    }
+  };
+
+  const handleInputChangeWithValidation = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    handleInputChange(e);
+    const { name, value } = e.target;
+    const errorMessage = validateField(name, value);
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
+  };
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const newErrors = {
+      name: validateField('name', speakerData.name),
+      expertise: validateField('expertise', speakerData.expertise),
+      speakerEmail: validateField('speakerEmail', speakerData.speakerEmail),
+      bio: validateField('bio', speakerData.bio),
+    };
+    setErrors(newErrors);
+    const hasErrors = Object.values(newErrors).some((error) => error !== '');
+    if (!hasErrors) {
+      handleSubmit(e);
+    }
+  };
+
   return (
     showPopup && (
       <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div className="bg-white p-8 rounded-lg shadow-lg relative">
+        <div className="bg-white p-8 rounded-lg shadow-lg relative w-full max-w-lg">
           <button
             type="button"
             className="absolute top-3 right-4 text-gray-700 hover:text-red-600 focus:outline-none"
@@ -52,7 +118,7 @@ const SpeakerFormPopup: React.FC<SpeakerFormPopupProps> = ({
               />
             </svg>
           </button>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleFormSubmit}>
             <h2 className="text-2xl mb-6 text-center font-bold">
               {mode === 'add' ? 'Add New Speaker' : 'Update Speaker'}
             </h2>
@@ -70,10 +136,13 @@ const SpeakerFormPopup: React.FC<SpeakerFormPopupProps> = ({
                   id="name"
                   name="name"
                   value={speakerData.name}
-                  onChange={handleInputChange}
+                  onChange={handleInputChangeWithValidation}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
+                {errors.name && (
+                  <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+                )}
               </div>
               <div>
                 <label
@@ -87,10 +156,13 @@ const SpeakerFormPopup: React.FC<SpeakerFormPopupProps> = ({
                   id="expertise"
                   name="expertise"
                   value={speakerData.expertise}
-                  onChange={handleInputChange}
+                  onChange={handleInputChangeWithValidation}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
+                {errors.expertise && (
+                  <p className="text-red-500 text-xs mt-1">{errors.expertise}</p>
+                )}
               </div>
               <div className="md:col-span-2">
                 <label
@@ -104,10 +176,13 @@ const SpeakerFormPopup: React.FC<SpeakerFormPopupProps> = ({
                   id="email"
                   name="speakerEmail"
                   value={speakerData.speakerEmail}
-                  onChange={handleInputChange}
+                  onChange={handleInputChangeWithValidation}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
+                {errors.speakerEmail && (
+                  <p className="text-red-500 text-xs mt-1">{errors.speakerEmail}</p>
+                )}
               </div>
               <div className="md:col-span-2">
                 <label
@@ -120,10 +195,13 @@ const SpeakerFormPopup: React.FC<SpeakerFormPopupProps> = ({
                   id="bio"
                   name="bio"
                   value={speakerData.bio}
-                  onChange={handleInputChange}
+                  onChange={handleInputChangeWithValidation}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 ></textarea>
+                {errors.bio && (
+                  <p className="text-red-500 text-xs mt-1">{errors.bio}</p>
+                )}
               </div>
               <div className="md:col-span-2">
                 <label
