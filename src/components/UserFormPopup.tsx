@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 interface UserFormPopupProps {
   showPopup: boolean;
+  formTitle: string;
   userData: { 
     username: string;
     email: string;
@@ -13,7 +14,7 @@ interface UserFormPopupProps {
   onClose: () => void;
 }
 
-const UserFormPopup: React.FC<UserFormPopupProps> = ({ showPopup, userData, handleInputChange, handleSubmit, onClose }) => {
+const UserFormPopup: React.FC<UserFormPopupProps> = ({ showPopup, formTitle, userData, handleInputChange, handleSubmit, onClose }) => {
   const [errors, setErrors] = useState({
     username: '',
     email: '',
@@ -97,7 +98,7 @@ const UserFormPopup: React.FC<UserFormPopupProps> = ({ showPopup, userData, hand
             </svg>
           </button>
           <form onSubmit={handleFormSubmit}>
-            <h2 className="text-2xl mb-6 text-center font-bold">Add New User</h2>
+            <h2 className="text-2xl mb-6 text-center font-bold">{formTitle}</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -111,71 +112,71 @@ const UserFormPopup: React.FC<UserFormPopupProps> = ({ showPopup, userData, hand
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
                   required 
                 />
-                {errors.username && (
-                  <p className="text-red-500 text-xs mt-1">{errors.username}</p>
-                )}
+                  {errors.username && (
+                    <p className="text-red-500 text-xs mt-1">{errors.username}</p>
+                  )}
               </div>
-              <div className="relative">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="role">Role</label>
-                <select 
-                  id="role" 
-                  name="role" 
-                  value={userData.role} 
-                  onChange={handleInputChange} 
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pr-8" 
-                  required
-                >
-                  <option>Select Role</option>
-                  <option value="User">User</option>
-                  <option value="Admin">Admin</option>
-                </select>
-                <span className="absolute right-2 top-12 transform -translate-y-1/2 text-gray-500">▼</span>
+                <div className="relative">
+                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="role">Role</label>
+                  <select 
+                    id="role" 
+                    name="role" 
+                    value={userData.role} 
+                    onChange={handleInputChange} 
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pr-8" 
+                    required
+                  >
+                    <option>Select Role</option>
+                    <option value="User">User</option>
+                    <option value="Admin">Admin</option>
+                  </select>
+                  <span className="absolute right-2 top-12 transform -translate-y-1/2 text-gray-500">▼</span>
+                </div>
+                <div>
+                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">Email</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    value={userData.email} 
+                    onChange={handleInputChangeWithValidation} 
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                    required 
+                  />
+                  {errors.email && (
+                    <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">Password</label>
+                  <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    value={userData.password} 
+                    onChange={handleInputChangeWithValidation} 
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                    required 
+                  />
+                  {errors.password && (
+                    <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+                  )}
+                </div>
               </div>
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">Email</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  name="email" 
-                  value={userData.email} 
-                  onChange={handleInputChangeWithValidation} 
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                  required 
-                />
-                {errors.email && (
-                  <p className="text-red-500 text-xs mt-1">{errors.email}</p>
-                )}
-              </div>
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">Password</label>
-                <input 
-                  type="password" 
-                  id="password" 
-                  name="password" 
-                  value={userData.password} 
-                  onChange={handleInputChangeWithValidation} 
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                  required 
-                />
-                {errors.password && (
-                  <p className="text-red-500 text-xs mt-1">{errors.password}</p>
-                )}
-              </div>
-            </div>
 
-            <div className="flex justify-center mt-6">
-              <button 
-                type="submit" 
-                className="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              >
-                Save
-              </button>
-            </div>
-          </form>
+              <div className="flex justify-center mt-6">
+                <button 
+                  type="submit" 
+                  className="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-    )
-  );
+      )
+    );
 };
 
 export default UserFormPopup;
