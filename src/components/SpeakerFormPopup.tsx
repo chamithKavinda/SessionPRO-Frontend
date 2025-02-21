@@ -1,7 +1,9 @@
+
 import React from 'react';
 
 interface SpeakerFormPopupProps {
   showPopup: boolean;
+  mode: 'add' | 'update';
   speakerData: {
     name: string;
     bio: string;
@@ -18,6 +20,7 @@ interface SpeakerFormPopupProps {
 
 const SpeakerFormPopup: React.FC<SpeakerFormPopupProps> = ({
   showPopup,
+  mode,
   speakerData,
   handleInputChange,
   handleSubmit,
@@ -50,7 +53,9 @@ const SpeakerFormPopup: React.FC<SpeakerFormPopupProps> = ({
             </svg>
           </button>
           <form onSubmit={handleSubmit}>
-            <h2 className="text-2xl mb-6 text-center font-bold">Add New Speaker</h2>
+            <h2 className="text-2xl mb-6 text-center font-bold">
+              {mode === 'add' ? 'Add New Speaker' : 'Update Speaker'}
+            </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -180,5 +185,4 @@ const SpeakerFormPopup: React.FC<SpeakerFormPopupProps> = ({
     )
   );
 };
-
 export default SpeakerFormPopup;

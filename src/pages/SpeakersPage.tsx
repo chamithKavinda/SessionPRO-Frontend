@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavBar from '../components/NavBar';
@@ -12,13 +11,14 @@ const SpeakersPage = () => {
   const [speakers, setSpeakers] = useState<Speaker[]>([]);
   const [editingSpeakerEmail, setEditingSpeakerEmail] = useState<string | null>(null);
   const [selectedSpeakerEmail, setSelectedSpeakerEmail] = useState<string | null>(null);
+  const [mode, setMode] = useState<'add' | 'update'>('add');
 
   const [speakerData, setSpeakerData] = useState({
     name: '',
     bio: '',
     expertise: '',
     speakerEmail: '',
-    image: '' 
+    image: ''
   });
   const [file, setFile] = useState<File | null>(null);
 
@@ -62,7 +62,7 @@ const SpeakersPage = () => {
     formData.append('expertise', speakerData.expertise);
     formData.append('speakerEmail', speakerData.speakerEmail);
     if (file) {
-      formData.append('image', file); 
+      formData.append('image', file);
     }
 
     if (editingSpeakerEmail) {
@@ -128,9 +128,22 @@ const SpeakersPage = () => {
         image: image
       });
       setEditingSpeakerEmail(speakerEmail);
+      setMode('update');
       setShowPopup(true);
       toast.info(`Editing speaker: ${speaker.name}`);
     }
+  };
+
+  const handleAddSpeaker = () => {
+    setSpeakerData({
+      name: '',
+      bio: '',
+      expertise: '',
+      speakerEmail: '',
+      image: ''
+    });
+    setMode('add');
+    setShowPopup(true);
   };
 
   const removeImage = () => {
@@ -143,13 +156,14 @@ const SpeakersPage = () => {
       <NavBar />
       <button
         className="relative rounded-full bg-gray-700 ml-8 mt-8 px-4 py-2 font-mono font-bold text-white transition-colors duration-700 ease-linear before:absolute before:right-1/2 before:top-1/2 before:-z-[1] before:h-3/4 before:w-2/3 before:origin-bottom-left before:-translate-y-1/2 before:translate-x-1/2 before:animate-ping before:rounded-full before:bg-black hover:bg-black hover:before:bg-black"
-        onClick={() => setShowPopup(true)}
+        onClick={handleAddSpeaker}
       >
         Add Speaker
       </button>
 
       <SpeakerFormPopup
         showPopup={showPopup}
+        mode={mode}
         speakerData={speakerData}
         handleInputChange={handleInputChange}
         handleSubmit={handleSubmit}
