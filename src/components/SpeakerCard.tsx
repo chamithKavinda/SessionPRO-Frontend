@@ -21,7 +21,6 @@ const SpeakerCard: React.FC<SpeakerCardProps> = ({
   handleDeleteSpeaker,
   selectedSpeakerEmail,
 }) => {
-  // Ensure the base64 string is prefixed correctly for rendering
   const imageSrc = speaker.image.startsWith('data:image/')
     ? speaker.image
     : `data:image/jpeg;base64,${speaker.image}`;
@@ -29,7 +28,7 @@ const SpeakerCard: React.FC<SpeakerCardProps> = ({
   return (
     <article
       key={speaker.speakerEmail}
-      className="w-[250px] h-[350px] mx-auto hover:animate-background rounded-xl shadow-2xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]"
+      className="w-[250px] h-[320px] mx-auto hover:animate-background rounded-xl shadow-2xl transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s] transition-transform duration-300 transform hover:translate-y-[-10px]"
     >
       <div className="relative">
         <button
@@ -79,9 +78,9 @@ const SpeakerCard: React.FC<SpeakerCardProps> = ({
         <h3 className="mt-0.5 text-lg font-medium text-gray-900">
           {speaker.name}
         </h3>
-        <p className="mt-2 text-sm">{speaker.bio}</p>
-        <p className="mt-3 text-sm text-gray-700">Expertise: {speaker.expertise}</p>
-        <p className="mt-1 text-sm text-gray-700">Email: {speaker.speakerEmail}</p>
+        <p className="mt-0 text-sm">{speaker.bio}</p>
+        <p className="mt-2 text-sm text-gray-700">Email: {speaker.speakerEmail}</p>
+        <p className="mt-1 text-sm text-gray-700">Expertise: {speaker.expertise}</p>
       </div>
     </article>
   );
