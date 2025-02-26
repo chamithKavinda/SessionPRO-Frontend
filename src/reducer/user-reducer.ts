@@ -7,7 +7,7 @@ export const initialState: User[] = [];
 type NewUser = Omit<User, 'email'>;
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/user',
+  baseURL: 'http://localhost:3001/user',
 });
 
 export const saveUser = createAsyncThunk('user/saveUser', async (user: NewUser) => {

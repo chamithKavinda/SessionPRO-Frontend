@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import signinImage from "../assets/AuthImage.jpg";
 import signupImage from "../assets/AuthImage.jpg";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { login } from "../reducer/auth-reducer";  
 
 const AuthPage = () => {
   const [email, setEmail] = useState("");
@@ -9,18 +12,36 @@ const AuthPage = () => {
   const [username, setUsername] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch(); 
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     if (email && password) {
-      navigate("/dashboard");
+      try {
+        const response = await axios.post("http://localhost:3001/auth/login", {
+          user: { email, password },
+        });
+        const { accessToken } = response.data;
+        dispatch(login(accessToken));  
+        localStorage.setItem("token", accessToken);  
+        navigate("/dashboard");
+      } catch (error) {
+        console.error("Login failed", error);
+      }
     }
   };
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (username && email && password) {
-      setIsSignUp(false);
+      try {
+        await axios.post("http://localhost:3001/auth/register", {
+          user: { username, email, password, role: "USER" },
+        });
+        setIsSignUp(false);
+      } catch (error) {
+        console.error("Registration failed", error);
+      }
     }
-  };
+  };    
 
   return (
     <div className="flex items-center justify-center bg-white min-h-screen relative overflow-hidden">
@@ -187,22 +208,6 @@ const AuthPage = () => {
                       htmlFor="password"
                     >
                       Password
-                    </label>
-                  </div>
-
-                  {/* User Checkbox */}
-                  <div className="flex items-center mb-6">
-                    <input
-                      id="user"
-                      type="checkbox"
-                      className="w-4 h-4 border border-black rounded-sm focus:ring-2"
-                      required
-                    />
-                    <label
-                      htmlFor="user"
-                      className="ml-2 text-base text-gray-700"
-                    >
-                      User
                     </label>
                   </div>
 

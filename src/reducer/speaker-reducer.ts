@@ -7,7 +7,7 @@ export const initialState: Speaker[] = [];
 type NewSpeaker = Omit<Speaker, 'speakerEmail'>;
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/speaker",
+  baseURL: "http://localhost:3001/speaker",
 });
 
 export const saveSpeaker = createAsyncThunk("speaker/saveSpeaker", async (speaker: NewSpeaker) => {

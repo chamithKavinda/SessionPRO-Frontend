@@ -25,7 +25,7 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, isRegistered, handle
 
   const handleRegister = () => {
     dispatch(registerSession(session));
-    toast.success("Registration successful!", { position: "bottom-right", autoClose: 3000 });
+    toast.success("Session Add to My Sessions!", { position: "bottom-right", autoClose: 3000 });
   };
 
   const handleRemove = () => {

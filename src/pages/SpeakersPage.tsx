@@ -28,7 +28,7 @@ const SpeakersPage = () => {
 
   const fetchSpeakers = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/speaker');
+      const response = await axios.get('http://localhost:3001/speaker');
       setSpeakers(response.data);
     } catch (error) {
       console.error("Error fetching speakers:", error);
@@ -67,7 +67,7 @@ const SpeakersPage = () => {
 
     if (editingSpeakerEmail) {
       try {
-        const response = await axios.put(`http://localhost:3000/speaker/${editingSpeakerEmail}`, formData);
+        const response = await axios.put(`http://localhost:3001/speaker/${editingSpeakerEmail}`, formData);
         setSpeakers((prevSpeakers) =>
           prevSpeakers.map((speaker) =>
             speaker.speakerEmail === editingSpeakerEmail ? response.data : speaker
@@ -81,7 +81,7 @@ const SpeakersPage = () => {
       }
     } else {
       try {
-        const response = await axios.post('http://localhost:3000/speaker', formData);
+        const response = await axios.post('http://localhost:3001/speaker', formData);
         setSpeakers((prevSpeakers) => [...prevSpeakers, response.data]);
         toast.success("Speaker added successfully!");
       } catch (error) {
@@ -107,7 +107,7 @@ const SpeakersPage = () => {
 
   const handleDeleteSpeaker = async (speakerEmail: string) => {
     try {
-      await axios.delete(`http://localhost:3000/speaker/${speakerEmail}`);
+      await axios.delete(`http://localhost:3001/speaker/${speakerEmail}`);
       setSpeakers(speakers.filter((speaker) => speaker.speakerEmail !== speakerEmail));
       toast.success("Speaker deleted successfully!");
     } catch (error) {

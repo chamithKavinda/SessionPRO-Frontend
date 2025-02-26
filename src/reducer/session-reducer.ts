@@ -7,7 +7,7 @@ export const initialState: Session[] = [];
 type NewSession = Omit<Session, 'sessionID'>;
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/session",
+  baseURL: "http://localhost:3001/session",
 });
 
 export const saveSession = createAsyncThunk("session/saveSession", async (session: NewSession) => {
