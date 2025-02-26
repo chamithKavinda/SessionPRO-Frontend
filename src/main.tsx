@@ -1,14 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import authReducer from "./slices/authSlice";
+import store from "./store/store"; 
 import App from "./App";
-import './index.css'
-
-const store = configureStore({
-  reducer: { auth: authReducer },
-});
+import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 

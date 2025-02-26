@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import signinImage from "../assets/AuthImage.jpg";
 import signupImage from "../assets/AuthImage.jpg";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { login } from "../reducer/auth-reducer";
+import {jwtDecode} from "jwt-decode";
 
 const AuthPage = () => {
   const [email, setEmail] = useState("");
@@ -9,18 +13,44 @@ const AuthPage = () => {
   const [username, setUsername] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     if (email && password) {
-      navigate("/dashboard");
+      try {
+        const response = await axios.post("http://localhost:3001/auth/login", {
+          user: { email, password },
+        });
+        const { accessToken } = response.data;
+        dispatch(login(accessToken));
+        localStorage.setItem("token", accessToken);
+        
+        const decodedToken = jwtDecode(accessToken);
+        const { role } = decodedToken as { role: string };
+        
+        if (role === "ADMIN") {
+          navigate("/admindashboard");
+        } else {
+          navigate("/userdashboard");
+        }
+      } catch (error) {
+        console.error("Login failed", error);
+      }
     }
   };
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (username && email && password) {
-      setIsSignUp(false);
+      try {
+        await axios.post("http://localhost:3001/auth/register", {
+          user: { username, email, password, role: "USER" },
+        });
+        setIsSignUp(false);
+      } catch (error) {
+        console.error("Registration failed", error);
+      }
     }
-  };
+  };    
 
   return (
     <div className="flex items-center justify-center bg-white min-h-screen relative overflow-hidden">
@@ -51,7 +81,7 @@ const AuthPage = () => {
       </div>
 
       {/* Form */}
-      <div className="w-full max-w-md p-12 -mt-80 flex flex-col justify-center items-center h-full">
+      <div className="w-full max-w-md p-12 -mt-96 flex flex-col justify-center items-center h-full">
         <div className="relative w-full flex flex-col justify-center items-center space-y-6">
           {/* Transition Wrapper */}
           <div
@@ -189,9 +219,10 @@ const AuthPage = () => {
                       Password
                     </label>
                   </div>
+
                 </form>
                 <button
-                  className="w-full max-w-xs h-10 text-white font-semibold rounded-md bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 hover:bg-indigo-600 mb-4"
+                  className="w-full max-w-xs h-10 text-white font-semibold rounded-md bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 hover:bg-indigo-600 mb-6"
                   onClick={handleSignUp}
                 >
                   Sign Up
@@ -208,6 +239,7 @@ const AuthPage = () => {
                 </p>
               </div>
             )}
+
           </div>
         </div>
       </div>
