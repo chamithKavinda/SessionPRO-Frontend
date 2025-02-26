@@ -1,4 +1,3 @@
-import React from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
 
 export default function NavBar() {
@@ -25,7 +24,7 @@ export default function NavBar() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/sessions" className={({ isActive }) => isActive ? "text-black font-bold" : "hover:text-black"}>
+              <NavLink to="/usersessions" className={({ isActive }) => isActive ? "text-black font-bold" : "hover:text-black"}>
                 Sessions
               </NavLink>
             </li>
@@ -35,7 +34,7 @@ export default function NavBar() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/my-sessions" className={({ isActive }) => isActive ? "text-black font-bold" : "hover:text-black"}>
+              <NavLink to="/usermy-sessions" className={({ isActive }) => isActive ? "text-black font-bold" : "hover:text-black"}>
                 My Sessions
               </NavLink>
             </li>

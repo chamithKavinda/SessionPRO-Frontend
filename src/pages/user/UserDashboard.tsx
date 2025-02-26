@@ -30,10 +30,10 @@ const UserDashboard = () => {
       <div className="p-6">
         {/* Card Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mt-5">
-          <Card count={20} label="Sessions" navigateTo="/sessions" />
+          <Card count={20} label="Sessions" navigateTo="/usersessions" />
           <Card count={10} label="Speakers" navigateTo="/speakers" />
           <Card count={15} label="Users" navigateTo="" />
-          <Card count={3} label="My Sessions" navigateTo="/my-sessions" />
+          <Card count={3} label="My Sessions" navigateTo="/usermy-sessions" />
         </div>
 
         {/* Placeholder for Charts */}

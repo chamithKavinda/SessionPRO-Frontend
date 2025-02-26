@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,6 +13,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { useDispatch } from "react-redux";
 import { login } from "./reducer/auth-reducer"; 
 import UserDashboard from "./pages/user/UserDashboard";
+import UserSessionsPage from "./pages/user/UserSessionsPage";
+import UserMySessionPage from "./pages/user/UserMySessionPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -75,6 +77,27 @@ const App = () => {
           element={
             <ProtectedRoute>
               <UserDashboard/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/usersessions"
+          element={
+            <ProtectedRoute>
+              <UserSessionsPage/>
+            </ProtectedRoute>
+          }
+        />
+
+
+
+
+
+        <Route
+          path="/usermy-sessions"
+          element={
+            <ProtectedRoute>
+              <UserMySessionPage/>
             </ProtectedRoute>
           }
         />
