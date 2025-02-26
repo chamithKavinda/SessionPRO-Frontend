@@ -29,7 +29,7 @@ export default function NavBar() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/speakers" className={({ isActive }) => isActive ? "text-black font-bold" : "hover:text-black"}>
+              <NavLink to="/userspeakers" className={({ isActive }) => isActive ? "text-black font-bold" : "hover:text-black"}>
                 Speakers
               </NavLink>
             </li>

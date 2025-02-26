@@ -1,4 +1,3 @@
-import React from 'react'
 import Card from '../../components/DashboardCard';
 import ChartContainer from '../../components/ChartContainer';
 import UserNavBar from '../../components/user/UserNavBar';
@@ -31,7 +30,7 @@ const UserDashboard = () => {
         {/* Card Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mt-5">
           <Card count={20} label="Sessions" navigateTo="/usersessions" />
-          <Card count={10} label="Speakers" navigateTo="/speakers" />
+          <Card count={10} label="Speakers" navigateTo="/userspeakers" />
           <Card count={15} label="Users" navigateTo="" />
           <Card count={3} label="My Sessions" navigateTo="/usermy-sessions" />
         </div>

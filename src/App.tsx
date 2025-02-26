@@ -15,6 +15,7 @@ import { login } from "./reducer/auth-reducer";
 import UserDashboard from "./pages/user/UserDashboard";
 import UserSessionsPage from "./pages/user/UserSessionsPage";
 import UserMySessionPage from "./pages/user/UserMySessionPage";
+import UserSpeakerPage from "./pages/user/UserSpeakerPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -88,11 +89,14 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
-
-
-
-
+        <Route
+          path="/userspeakers"
+          element={
+            <ProtectedRoute>
+              <UserSpeakerPage/>
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/usermy-sessions"
           element={
