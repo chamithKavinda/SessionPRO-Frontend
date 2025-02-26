@@ -1,15 +1,23 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'; 
 import { RootState } from '../../store/store'; 
+import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 export default function NavBar() {
   const navigate = useNavigate();
   const registeredSessions = useSelector((state: RootState) => state.mySession.registeredSessions); 
   const sessionCount = registeredSessions.length; 
+  const [showMenu, setShowMenu] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("authToken"); 
     navigate("/"); 
+  };
+
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
   };
 
   return (
@@ -44,26 +52,34 @@ export default function NavBar() {
             </li>
             <li>
               <NavLink to="/adminmy-sessions" className={({ isActive }) => isActive ? "text-black font-bold" : "hover:text-black"}>
-                My Sessions {sessionCount > 0 && `(${sessionCount})`} {/* Conditionally display session count */}
+                My Sessions {sessionCount > 0 && `(${sessionCount})`} 
               </NavLink>
             </li>
           </ul>
-          <button
-            onClick={handleLogout}
-            className="group flex items-center justify-start w-8 h-8 mr-8 bg-black rounded-full cursor-pointer relative overflow-hidden transition-all duration-700 shadow-lg hover:bg-gradient-to-r hover:from-teal-400 hover:via-blue-500 hover:to-purple-500 hover:w-32 active:translate-x-1 active:translate-y-1"
-            style={{ marginLeft: 'auto' }}
-          >
-            <div className="flex items-center justify-center w-full transition-all duration-300 group-hover:justify-start group-hover:px-3">
-              <svg className="w-4 h-4" viewBox="0 0 512 512" fill="white">
-                <path
-                  d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"
-                ></path>
-              </svg>
-            </div>
-            <div className="absolute right-5 transform translate-x-full opacity-0 text-white text-lg font-semibold transition-all duration-1000 group-hover:translate-x-0 group-hover:opacity-100">
-              Logout
-            </div>
-          </button>
+          <div className="relative">
+            <FontAwesomeIcon
+              icon={faUser}
+              className="w-6 h-6 mr-20 text-black mr-8 cursor-pointer"
+              onClick={toggleMenu}
+              style={{ marginLeft: 'auto' }}
+            />
+            {showMenu && (
+              <div className="absolute right-0 w-48 mr-4 bg-white rounded-lg shadow-lg py-2 mt-1">
+                <button
+                  onClick={() => { navigate(""); setShowMenu(false); }}
+                  className="block w-full px-4 py-2 text-left text-black hover:bg-gray-200"
+                >
+                  Settings
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="block w-full px-4 py-2 text-left text-black hover:bg-red-300"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </nav>
       <div className="h-20"></div>
