@@ -1,8 +1,11 @@
-import React from 'react';
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux'; 
+import { RootState } from '../../store/store'; 
 
 export default function NavBar() {
   const navigate = useNavigate();
+  const registeredSessions = useSelector((state: RootState) => state.mySession.registeredSessions); 
+  const sessionCount = registeredSessions.length; 
 
   const handleLogout = () => {
     localStorage.removeItem("authToken"); 
@@ -12,7 +15,7 @@ export default function NavBar() {
   return (
     <div>
       {/* Navigation Bar */}
-      <nav className="fixed top-0 w-full z-50 bg-gray-100 ">
+      <nav className="fixed top-0 w-full z-50 bg-gray-100">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-1">
             <img src="src/assets/SessionPro Icon.png" alt="Logo" className="h-16 w-20 mt-1" />
@@ -41,7 +44,7 @@ export default function NavBar() {
             </li>
             <li>
               <NavLink to="/adminmy-sessions" className={({ isActive }) => isActive ? "text-black font-bold" : "hover:text-black"}>
-                My Sessions
+                My Sessions {sessionCount > 0 && `(${sessionCount})`} {/* Conditionally display session count */}
               </NavLink>
             </li>
           </ul>
