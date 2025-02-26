@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import Speaker from "../models/speaker";
+import Speaker from "../../models/speaker";
 
 export const initialState: Speaker[] = [];
 

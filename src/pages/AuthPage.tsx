@@ -4,7 +4,8 @@ import signinImage from "../assets/AuthImage.jpg";
 import signupImage from "../assets/AuthImage.jpg";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { login } from "../reducer/auth-reducer";  
+import { login } from "../reducer/auth-reducer";
+import {jwtDecode} from "jwt-decode";
 
 const AuthPage = () => {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ const AuthPage = () => {
   const [username, setUsername] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
 
   const handleSignIn = async () => {
     if (email && password) {
@@ -21,9 +22,17 @@ const AuthPage = () => {
           user: { email, password },
         });
         const { accessToken } = response.data;
-        dispatch(login(accessToken));  
-        localStorage.setItem("token", accessToken);  
-        navigate("/dashboard");
+        dispatch(login(accessToken));
+        localStorage.setItem("token", accessToken);
+        
+        const decodedToken = jwtDecode(accessToken);
+        const { role } = decodedToken as { role: string };
+        
+        if (role === "ADMIN") {
+          navigate("/admindashboard");
+        } else {
+          navigate("/userdashboard");
+        }
       } catch (error) {
         console.error("Login failed", error);
       }

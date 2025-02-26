@@ -1,10 +1,10 @@
 import React from 'react';
-import NavBar from '../components/NavBar';
+import NavBar from '../../components/admin/AdminNavBar';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store/store';
-import SessionCard from '../components/SessionCard';
-import Session from '../models/session';
-import { removeSession } from '../reducer/mySession-reducer';
+import { RootState } from '../../store/store';
+import SessionCard from '../../components/admin/AdminSessionCard';
+import Session from '../../models/session';
+import { removeSession } from '../../reducer/admin/admin-mySession-reducer';
 
 const MySessionPage: React.FC = () => {
   const dispatch = useDispatch();

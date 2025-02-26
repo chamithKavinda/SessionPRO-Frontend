@@ -1,7 +1,7 @@
 import React from 'react';
-import NavBar from '../components/NavBar';
-import Card from '../components/DashboardCard';
-import ChartContainer from '../components/ChartContainer';
+import AdminNavBar from '../../components/admin/AdminNavBar';
+import Card from '../../components/DashboardCard';
+import ChartContainer from '../../components/ChartContainer';
 
 const Dashboard = () => {
   const chartOptions = {
@@ -24,16 +24,16 @@ const Dashboard = () => {
 
   return (
     <div>
-      <NavBar />
+      <AdminNavBar />
 
       {/* Main Content */}
       <div className="p-6">
         {/* Card Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mt-5">
-          <Card count={20} label="Sessions" navigateTo="/sessions" />
-          <Card count={10} label="Speakers" navigateTo="/speakers" />
-          <Card count={15} label="Users" navigateTo="/users" />
-          <Card count={3} label="My Sessions" navigateTo="/my-sessions" />
+          <Card count={20} label="Sessions" navigateTo="/adminsessions" />
+          <Card count={10} label="Speakers" navigateTo="/adminspeakers" />
+          <Card count={15} label="Users" navigateTo="/adminusers" />
+          <Card count={3} label="My Sessions" navigateTo="/adminmy-sessions" />
         </div>
 
         {/* Placeholder for Charts */}

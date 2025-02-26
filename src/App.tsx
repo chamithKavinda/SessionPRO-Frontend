@@ -4,14 +4,15 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import WelcomePage from "./pages/WelcomePage";
 import AuthPage from "./pages/AuthPage"; 
-import Dashboard from "./pages/DashboardPage";
-import SessionsPage from "./pages/SessionsPage";
-import SpeakersPage from "./pages/SpeakersPage";
-import UserPage from "./pages/UserPage";
-import MySessionPage from "./pages/MySessionPage";
+import AdminDashboard from "./pages/admin/AdminDashboardPage";
+import AdminSessionsPage from "./pages/admin/AdminSessionsPage";
+import AdminSpeakersPage from "./pages/admin/AdminSpeakersPage";
+import AdminUserPage from "./pages/admin/AdminUserPage";
+import AdminMySessionPage from "./pages/admin/AdminMySessionPage";
 import ProtectedRoute from "./components/ProtectedRoute";  
 import { useDispatch } from "react-redux";
 import { login } from "./reducer/auth-reducer"; 
+import UserDashboard from "./pages/user/UserDashboard";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -30,42 +31,50 @@ const App = () => {
         <Route path="/" element={<WelcomePage />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route
-          path="/dashboard"
+          path="/admindashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <AdminDashboard />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/sessions"
+          path="/adminsessions"
           element={
             <ProtectedRoute>
-              <SessionsPage />
+              <AdminSessionsPage />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/speakers"
+          path="/adminspeakers"
           element={
             <ProtectedRoute>
-              <SpeakersPage />
+              <AdminSpeakersPage />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/users"
+          path="/adminusers"
           element={
             <ProtectedRoute>
-              <UserPage />
+              <AdminUserPage />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/my-sessions"
+          path="/adminmy-sessions"
           element={
             <ProtectedRoute>
-              <MySessionPage />
+              <AdminMySessionPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/userdashboard"
+          element={
+            <ProtectedRoute>
+              <UserDashboard/>
             </ProtectedRoute>
           }
         />

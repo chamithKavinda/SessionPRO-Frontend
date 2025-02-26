@@ -18,9 +18,9 @@ export default function NavBar() {
             <img src="src/assets/SessionPro Icon.png" alt="Logo" className="h-16 w-20 mt-1" />
             <h1 className="text-2xl font-bold">SessionPRO</h1>
           </div>
-          <ul className="flex space-x-14 ml-56">
+          <ul className="flex space-x-14 ml-80">
             <li>
-              <NavLink to="/dashboard" className={({ isActive }) => isActive ? "text-black font-bold" : "hover:text-black"}>
+              <NavLink to="/userdashboard" className={({ isActive }) => isActive ? "text-black font-bold" : "hover:text-black"}>
                 Home
               </NavLink>
             </li>
@@ -32,11 +32,6 @@ export default function NavBar() {
             <li>
               <NavLink to="/speakers" className={({ isActive }) => isActive ? "text-black font-bold" : "hover:text-black"}>
                 Speakers
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/users" className={({ isActive }) => isActive ? "text-black font-bold" : "hover:text-black"}>
-                Users
               </NavLink>
             </li>
             <li>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import NavBar from '../components/NavBar';
-import SpeakerFormPopup from '../components/SpeakerFormPopup';
-import SpeakerCard from '../components/SpeakerCard';
-import Speaker from '../models/speaker';
+import NavBar from '../../components/admin/AdminNavBar';
+import SpeakerFormPopup from '../../components/admin/AdminSpeakerFormPopup';
+import SpeakerCard from '../../components/admin/AdminSpeakerCard';
+import Speaker from '../../models/speaker';
 import { toast } from 'react-toastify';
 
 const SpeakersPage = () => {

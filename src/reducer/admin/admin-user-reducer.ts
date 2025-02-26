@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import User from '../models/user';
+import User from '../../models/user';
 
 export const initialState: User[] = [];
 

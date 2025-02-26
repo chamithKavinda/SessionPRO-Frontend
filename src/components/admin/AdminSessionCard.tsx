@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { toast } from "react-toastify";
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../store/store';
-import { registerSession } from '../reducer/mySession-reducer';
-import Session from '../models/session';
+import { AppDispatch } from '../../store/store';
+import { registerSession } from '../../reducer/admin/admin-mySession-reducer';
+import Session from '../../models/session';
 import { FaMapMarkerAlt, FaUser } from 'react-icons/fa'; 
 
 interface SessionCardProps {

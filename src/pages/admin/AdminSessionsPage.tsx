@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import NavBar from '../components/NavBar';
-import SessionFormPopup from '../components/SessionFormPopup';
-import SessionCard from '../components/SessionCard';
+import NavBar from '../../components/admin/AdminNavBar';
+import SessionFormPopup from '../../components/admin/AdminSessionFormPopup';
+import SessionCard from '../../components/admin/AdminSessionCard';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../store/store';
-import { deleteSession, getSessions, saveSession, updateSession } from '../reducer/session-reducer';
+import { AppDispatch, RootState } from '../../store/store';
+import { deleteSession, getSessions, saveSession, updateSession } from '../../reducer/admin/admin-session-reducer';
 import { toast } from "react-toastify";
-import Session from '../models/session';
+import Session from '../../models/session';
 
 const SessionsPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import NavBar from '../components/NavBar';
-import UserFormPopup from '../components/UserFormPopup';
-import UserCard from '../components/UserCard';
-import { RootState, AppDispatch } from '../store/store';
-import { saveUser, getUsers, deleteUser, updateUser } from '../reducer/user-reducer';
+import NavBar from '../../components/admin/AdminNavBar';
+import UserFormPopup from '../../components/admin/AdminUserFormPopup';
+import UserCard from '../../components/admin/AdminUserCard';
+import { RootState, AppDispatch } from '../../store/store';
+import { saveUser, getUsers, deleteUser, updateUser } from '../../reducer/admin/admin-user-reducer';
 import { toast } from 'react-toastify';
-import User from '../models/user';
+import User from '../../models/user';
 
 const UsersPage = () => {
   const dispatch = useDispatch<AppDispatch>();

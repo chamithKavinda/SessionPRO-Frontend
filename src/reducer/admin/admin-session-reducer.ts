@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import Session from "../models/session";
+import Session from "../../models/session";
 
 export const initialState: Session[] = [];
 
