@@ -1,91 +1,124 @@
-# SessionPRO  
-_A System to Plan, Organize, and Track Conference Sessions_
+# SessionPro - Frontend
+
+This repository contains the frontend for the **SessionPro**, designed to streamline event organization for seamless management of sessions, attendees, speakers, and real-time notifications. This system is designed for both admins and users, providing efficient and smooth session registration, user management, and feedback collection for a superior event experience.
+
+---
 
 ## Table of Contents
-- [Objective](#objective)
-- [Key Features](#key-features)
-  - [Session Management](#session-management)
-  - [Speaker Management](#speaker-management)
-  - [Attendee Management](#attendee-management)
-  - [Session Schedule and Calendar](#session-schedule-and-calendar)
-  - [Notifications](#notifications)
-  - [Session Feedback](#session-feedback)
-  - [Reports and Analytics](#reports-and-analytics)
-- [Target Users](#target-users)
+
+1. [Overview](#overview)
+2. [Technologies Used](#technologies-used)
+3. [Features](#features)
+4. [Installation](#installation)
+5. [Usage](#usage)
+6. [License](#license)
 
 ---
 
-## Objective
-The **Session Manager Pro** system is designed to streamline the management of conference sessions, providing an efficient way for organizers to schedule, update, and monitor individual sessions. This system focuses on session-level logistics without managing the overall conference, making it user-friendly and scalable for a wide range of events.
+## Overview
+
+This frontend project enables users to manage event sessions efficiently. The system includes functionalities to track session details, attendee information, speaker management, and real-time notifications. The interface is designed to be user-friendly, responsive, and suitable for various event sizes and types.
+
+### Welcome Page
+![Welcome Page](https://github.com/user-attachments/assets/4fb88e7f-2191-4f08-9fea-58abbcc67874)
+
+### SignIn Page
+![SignIn Page](https://github.com/user-attachments/assets/a1f018b4-d844-4dbe-94f7-111e68f5c5c4)
+
+### SignUp Page
+![SignUp Page](https://github.com/user-attachments/assets/b4a656e8-3f96-4df3-bbf4-5feed747d24e)
+
+### Dashboard Page
+![Dashboard](https://github.com/user-attachments/assets/23812c42-c83f-4881-b13a-a2f5d0437d2b)
+
+### Session Manage Section
+![Session Manage Section](https://github.com/user-attachments/assets/2ff80d89-314e-437d-8c5a-2fd4f8f3872f)
+
+### Session Registration Form
+![Session Registration Form](https://github.com/user-attachments/assets/53295647-66d0-4a36-a7eb-ce1922635c6c)
+
+### Session Update Form
+![Session Update Form](https://github.com/user-attachments/assets/657528da-3811-49ec-a42b-f6f8f63a7bd0)
+
+### Users Manage Section
+![User Manage Section](https://github.com/user-attachments/assets/a7edc351-46bc-4c3a-9cfd-c16778070e59)
+
+### Users Registration Form
+![Users Registration Form](https://github.com/user-attachments/assets/fe9be6d1-6bd8-4289-9c62-5639b8ccd84d)
+
+### User Update Form
+![Attendee Update Form](https://github.com/user-attachments/assets/7dcc959b-104f-4673-99ac-f1481b2135c8)
+
+### Speaker Manage Section
+![Speaker Manage Section](https://github.com/user-attachments/assets/ec613bd0-ce07-4291-928b-f26376326f9c)
+
+### Speaker Registration Form
+![Speaker Registration Form](https://github.com/user-attachments/assets/ec8d0a77-77eb-4834-979a-b338a982aab9)
+
+### Speaker Update Form
+![Speaker Update Form](https://github.com/user-attachments/assets/9c4e34bd-e1e7-400d-a130-2642f9c0edbd)
 
 ---
 
-## Key Features
+## Technologies Used
 
-### Session Management
-- **Create Sessions**: Add new sessions with details such as session name, description, date, time, location, and duration.
-- **Update Sessions**: Modify session details (e.g., reschedule, change location, or update topics).
-- **Delete Sessions**: Remove canceled or duplicate sessions.
-- **Session Categories**: Organize sessions by topics or themes (e.g., AI, Blockchain, Healthcare).
-
-### Speaker Management
-- Assign speakers to specific sessions.
-- Add or update speaker profiles, including:
-  - Name
-  - Bio
-  - Profile picture
-  - Expertise
-  - Contact information
-- Track speaker availability for sessions.
-
-### Attendee Management
-- Allow attendees to:
-  - View session details.
-  - Register for specific sessions.
-- Display real-time availability for sessions (e.g., number of seats left or online participation slots).
-- Track attendee registrations and collect session feedback.
-
-### Session Schedule and Calendar
-- Provide a visual calendar or timeline to display session schedules.
-- Highlight overlapping sessions to assist organizers in resolving conflicts.
-- Enable attendees to filter sessions by:
-  - Date
-  - Time
-  - Category
-
-### Notifications
-- Send reminders to:
-  - Attendees and speakers about upcoming sessions.
-- Notify organizers about:
-  - Schedule updates.
-  - Conflicts in the session schedule.
-
-### Session Feedback
-- Collect feedback from attendees after each session.
-- Generate reports to help organizers improve future sessions.
-
-### Reports and Analytics
-- Generate reports on:
-  - Session attendance.
-  - Speaker performance.
-  - Attendee feedback.
-- Provide insights into:
-  - Session popularity.
-  - Trends for better planning.
+- **React**: For building the user interface.
+- **Redux**: For state management.
+- **React Router**: For handling navigation.
+- **JavaScript**: For dynamic user interface interaction.
+- **CSS**: For styling the user interface.
+- **Tailwind CSS**: For utility-first CSS framework.
+- **Axios**: For making HTTP requests to the backend.
 
 ---
 
-## Target Users
-1. **Session Organizers**  
-   - Manage session details, speakers, and attendees.  
+## Features
 
-2. **Speakers**  
-   - Track assigned sessions and view related information.  
+- Responsive design using Tailwind CSS.
+- Dynamic data loading with Axios.
+- User-friendly interface for managing event operations.
+- Real-time notifications for session updates.
+- Secure login and data management functionality.
 
-3. **Attendees**  
-   - Browse session schedules.  
-   - Register for sessions.  
-   - Provide feedback on sessions.  
+---
 
+## Installation
 
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/chamithKavinda/SessionPRO-Frontend
 
+---
+
+## Usage
+
+- Use the navigation bar to access different sections:
+  - **Sessions**: Manage and view session details.
+  - **Attendees**: Add, update, and monitor attendee information.
+  - **Speakers**: Track speaker details and assignments.
+  - **Notifications**: View and manage real-time notifications for events.
+  
+- Upload and view images directly from the form interfaces with image preview functionality.
+- Interact with the session management data in real-time using dynamic UI elements, such as tables, charts, and notifications.
+
+---
+
+## Backend Repository
+
+The **Backend** repository for this project is available [here](https://github.com/chamithKavinda/SessionPRO-Backend). It handles all API endpoints, database interactions, and logic for managing event data. To connect the frontend with the backend, ensure both repositories are running simultaneously.
+
+---
+
+## License
+
+This project is licensed under the **MIT License** - see the [LICENSE](https://github.com/chamithKavinda/SessionPRO-Frontend?tab=MIT-1-ov-file) file for details.
+
+---
+
+## Contact
+
+For questions or support, please contact:
+
+- **Name**: Chamith Kavinda  
+- **Email**: chamth13kavinda@gmail.com  
+- **GitHub**: [Chamith Kavinda](https://github.com/chamithKavinda)
