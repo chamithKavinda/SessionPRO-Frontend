@@ -39,13 +39,11 @@ const UserProfilePopup = ({ isOpen, onClose }: UserProfileProps) => {
   
   const token = useSelector((state: RootState) => state.auth.token) || localStorage.getItem('token');
 
-  // Fetch user data when component mounts or when token changes
   useEffect(() => {
     if (token) {
       try {
         const decodedToken = jwtDecode(token) as { email: string; role: string };
         
-        // Fetch additional user data like username
         const fetchUserData = async () => {
           try {
             const response = await axios.get(`http://localhost:3001/user/${decodedToken.email}`, {
@@ -59,7 +57,6 @@ const UserProfilePopup = ({ isOpen, onClose }: UserProfileProps) => {
             });
           } catch (error) {
             console.error('Error fetching user data:', error);
-            // Fallback to using only token data
             setUserData({
               email: decodedToken.email,
               username: '',
@@ -114,7 +111,6 @@ const UserProfilePopup = ({ isOpen, onClose }: UserProfileProps) => {
       setConfirmPassword('');
       setUpdateSuccess(true);
       
-      // Reset success message after 3 seconds
       setTimeout(() => {
         setUpdateSuccess(false);
       }, 3000);

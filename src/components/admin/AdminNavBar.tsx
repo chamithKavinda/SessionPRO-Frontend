@@ -4,14 +4,14 @@ import { RootState } from '../../store/store';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import UserProfilePopup from '../../components/UserProfileProps'; // Import the new component
+import UserProfilePopup from '../../components/UserProfileProps';
 
 export default function NavBar() {
   const navigate = useNavigate();
   const registeredSessions = useSelector((state: RootState) => state.mySession.registeredSessions); 
   const sessionCount = registeredSessions.length; 
   const [showMenu, setShowMenu] = useState(false);
-  const [showProfilePopup, setShowProfilePopup] = useState(false); // New state for profile popup
+  const [showProfilePopup, setShowProfilePopup] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("authToken"); 
@@ -24,8 +24,8 @@ export default function NavBar() {
 
   // Handler for opening profile popup
   const handleOpenProfile = () => {
-    setShowMenu(false); // Close dropdown
-    setShowProfilePopup(true); // Open profile popup
+    setShowMenu(false); 
+    setShowProfilePopup(true);
   };
 
   return (
@@ -92,7 +92,6 @@ export default function NavBar() {
       </nav>
       <div className="h-20"></div>
       
-      {/* User Profile Popup */}
       <UserProfilePopup 
         isOpen={showProfilePopup} 
         onClose={() => setShowProfilePopup(false)} 
