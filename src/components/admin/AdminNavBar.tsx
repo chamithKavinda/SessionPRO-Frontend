@@ -4,12 +4,14 @@ import { RootState } from '../../store/store';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import UserProfilePopup from '../../components/UserProfileProps';
 
 export default function NavBar() {
   const navigate = useNavigate();
   const registeredSessions = useSelector((state: RootState) => state.mySession.registeredSessions); 
   const sessionCount = registeredSessions.length; 
   const [showMenu, setShowMenu] = useState(false);
+  const [showProfilePopup, setShowProfilePopup] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("authToken"); 
@@ -18,6 +20,12 @@ export default function NavBar() {
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
+  };
+
+  // Handler for opening profile popup
+  const handleOpenProfile = () => {
+    setShowMenu(false); 
+    setShowProfilePopup(true);
   };
 
   return (
@@ -66,10 +74,10 @@ export default function NavBar() {
             {showMenu && (
               <div className="absolute right-0 w-48 mr-4 bg-white rounded-lg shadow-lg py-2 mt-1">
                 <button
-                  onClick={() => { navigate(""); setShowMenu(false); }}
+                  onClick={handleOpenProfile}
                   className="block w-full px-4 py-2 text-left text-black hover:bg-gray-200"
                 >
-                  Settings
+                  My Profile
                 </button>
                 <button
                   onClick={handleLogout}
@@ -83,6 +91,11 @@ export default function NavBar() {
         </div>
       </nav>
       <div className="h-20"></div>
+      
+      <UserProfilePopup 
+        isOpen={showProfilePopup} 
+        onClose={() => setShowProfilePopup(false)} 
+      />
     </div>
   );
 }

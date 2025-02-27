@@ -1,14 +1,13 @@
-import {} from "react";
 import { useNavigate } from "react-router-dom";
 
 const WelcomePage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white">
-      <img src="src\\assets\\SessionPro Icon.png" alt="Logo" className="mb-2 w-32 h-auto" />
-      <h1 className="text-3xl font-bold mb-4">Welcome to Session Management System</h1>
-      <p className="text-lg mb-8 text-gray-600">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white p-4">
+      <img src="src\\assets\\SessionPro Icon.png" alt="Logo" className="mb-2 w-24 sm:w-32 h-auto" />
+      <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-center">Welcome to Session Management System</h1>
+      <p className="text-base sm:text-lg mb-8 text-gray-600 text-center">
         Organize, Manage, Engage – All in One Platform.
       </p>
       <div className="flex items-center justify-center">
@@ -20,14 +19,13 @@ const WelcomePage = () => {
             <span
               className="absolute inset-0 rounded-xl bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 p-[2px] opacity-0"
             ></span>
-
-            <span className="relative z-10 block px-6 py-2 rounded-xl bg-[1D347A]">
+            <span className="relative z-10 block px-4 py-2 sm:px-6 sm:py-2 rounded-xl bg-[1D347A]">
               <div className="relative z-10 flex items-center space-x-2">
                 <span className="transition-all duration-500">
                   Let's get started
                 </span>
                 <svg
-                  className="w-6 h-6 transition-transform duration-500"
+                  className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-500"
                   aria-hidden="true"
                   fill="currentColor"
                   viewBox="0 0 20 20"
