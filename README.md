@@ -31,6 +31,9 @@ This frontend project enables users to manage event sessions efficiently. The sy
 ### Dashboard Page
 ![Dashboard](https://github.com/user-attachments/assets/23812c42-c83f-4881-b13a-a2f5d0437d2b)
 
+### My Profile Page
+![My Profile](https://github.com/user-attachments/assets/b740f626-aedb-49e4-b026-9250ae4b1628)
+
 ### Session Manage Section
 ![Session Manage Section](https://github.com/user-attachments/assets/2ff80d89-314e-437d-8c5a-2fd4f8f3872f)
 
