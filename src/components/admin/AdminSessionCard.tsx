@@ -46,7 +46,7 @@ const SessionCard: React.FC<SessionCardProps> = ({ session, isRegistered, handle
   return (
     <article
   key={session.sessionID}
-  className="w-[250px] h-[350px] mx-auto transition-transform duration-300 transform hover:translate-y-[-10px] hover:shadow-[0_20px_50px_rgba(0,0,0,0.2)] rounded-xl shadow-2xl hover:bg-[length:400%_400%] hover:[animation-duration:_4s]"
+  className="w-[250px] h-[400px] mx-auto transition-transform duration-300 transform hover:translate-y-[-10px] hover:shadow-[0_20px_50px_rgba(0,0,0,0.2)] rounded-xl shadow-2xl hover:bg-[length:400%_400%] hover:[animation-duration:_4s]"
 >
       <div className="relative">
         {!isRegistered && (

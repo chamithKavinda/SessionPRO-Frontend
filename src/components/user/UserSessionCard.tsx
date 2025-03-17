@@ -30,7 +30,7 @@ const UserSessionCard: React.FC<SessionCardProps> = ({ session, isRegistered }) 
   return (
     <article
       key={session.sessionID}
-      className="w-[250px] h-[350px] mx-auto transition-transform duration-300 transform hover:translate-y-[-10px] hover:shadow-[0_20px_50px_rgba(0,0,0,0.2)] rounded-xl shadow-2xl hover:bg-[length:400%_400%] hover:[animation-duration:_4s]"
+      className="w-[250px] h-[400px] mx-auto transition-transform duration-300 transform hover:translate-y-[-10px] hover:shadow-[0_20px_50px_rgba(0,0,0,0.2)] rounded-xl shadow-2xl hover:bg-[length:400%_400%] hover:[animation-duration:_4s]"
     >
       <div className="rounded-[10px] bg-white p-4 h-full !pt-20 sm:p-6">
         <time className="block text-xs -mt-12 text-gray-500">{formattedDate}</time>
