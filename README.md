@@ -17,7 +17,7 @@ This repository contains the frontend for the **SessionPro**, designed to stream
 
 ## Overview
 
-This frontend project enables users to manage event sessions efficiently. The system includes functionalities to track session details, attendee information, speaker management, and real-time notifications. The interface is designed to be user-friendly, responsive, and suitable for various event sizes and types.
+This frontend project enables users to manage event sessions efficiently. The system includes functionalities to track session details, attendee information, speaker management, and real-time notifications. The interface is designed to be user-friendly.
 
 ### Welcome Page
 ![Welcome Page](https://github.com/user-attachments/assets/4fb88e7f-2191-4f08-9fea-58abbcc67874)
